@@ -99,7 +99,7 @@ Produtos(
     user_id
 )
 ***
-Venda(total, user_id, created_at)
+Venda(total, total_pago,status, user_id, created_at)
 ***
 ItemVenda(
     produto_id, 
