@@ -91,7 +91,7 @@ produto, pode simplismente consultar e usa-los nas vendas.
 
 # Fluxo determinado
 <pre>
-```
+
 ┌──────────────────────┐
 │ 1. Acessar o Módulo  │
 └──────────┬───────────┘
@@ -137,4 +137,3 @@ produto, pode simplismente consultar e usa-los nas vendas.
                         ▼
                   Encerrar Módulo
 </pre>
-```
