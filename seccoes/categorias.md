@@ -68,7 +68,7 @@ associada a ela.
 Categoria pode existir sem estar associada a um criador (usuário).
 
 # Fluxo determinado
-
+```
 ┌──────────────────────┐
 │ 1. Acessar o Módulo  │
 └──────────┬───────────┘
@@ -107,3 +107,4 @@ Categoria pode existir sem estar associada a um criador (usuário).
                         │
                         ▼
                   Encerrar Módulo
+```

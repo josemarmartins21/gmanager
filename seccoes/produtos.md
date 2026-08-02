@@ -87,10 +87,10 @@ Um produto não pode existir sem estar associado a uma categoria
 
 ## RN002
 Um utilizador default não pode excluir, editar dados de um
-produto, pode simplismente consultar.
+produto, pode simplismente consultar e usa-los nas vendas.
 
 # Fluxo determinado
-
+```
 ┌──────────────────────┐
 │ 1. Acessar o Módulo  │
 └──────────┬───────────┘
@@ -135,3 +135,4 @@ produto, pode simplismente consultar.
                         │
                         ▼
                   Encerrar Módulo
+```

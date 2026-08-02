@@ -94,18 +94,20 @@ Produtos(
     box_price, 
     current_stock, 
     min_stock, 
+    units_per_box,
     created_at, 
     updated_at,
     user_id
 )
 ***
-Venda(total, user_id, created_at)
+Venda(total, user_id, created_at, notes, status, total)
 ***
 ItemVenda(
-    produto_id, 
-    venda_id, 
-    subtotal, 
-    qty
+    produto_id null, 
+    venda_id null, 
+    qty,
+    nome, 
+    preco
 )
 ***
 Categoria(name, user_id)
@@ -113,7 +115,6 @@ Categoria(name, user_id)
 EstoqueMovimento(
     type, 
     box_qty, 
-    units_per_box, 
     notes, 
     created_at, 
     total_units
