@@ -90,7 +90,7 @@ Um utilizador default não pode excluir, editar dados de um
 produto, pode simplismente consultar.
 
 # Fluxo determinado
-
+<pre>
 ┌──────────────────────┐
 │ 1. Acessar o Módulo  │
 └──────────┬───────────┘
@@ -135,3 +135,4 @@ produto, pode simplismente consultar.
                         │
                         ▼
                   Encerrar Módulo
+</pre>
