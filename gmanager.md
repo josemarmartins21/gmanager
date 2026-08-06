@@ -90,7 +90,6 @@ Produtos(
     name, 
     category_id, 
     price, 
-    is_active,  
     box_price, 
     current_stock, 
     min_stock, 

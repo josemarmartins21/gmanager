@@ -2,7 +2,7 @@
 
 **Versão:** 1.0.0
 
-**Status:** Planejado
+**Status:** Em Planejamento
 
 **Dependências:**
 - Utilizadores.
