@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,52 +13,62 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissionSales = Permission::factory()->createMany([
+        Permission::factory()->createMany([
             [
-                'name' => 'sales:create',
+                'name' => 'sale:create',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sales:read',
+                'name' => 'sale:read',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sales:update',
+                'name' => 'sale:update',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sales:delete',
+                'name' => 'sale:delete',
                 'guard_name' => 'web',
             ],
         ]);
     
-        $permissionProducts = Permission::factory()->createMany([
+        Permission::factory()->createMany([
             [
-                'name' => 'products:create',
+                'name' => 'product:create',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:read',
+                'name' => 'product:read',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:update',
+                'name' => 'product:update',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:delete',
+                'name' => 'product:delete',
                 'guard_name' => 'web',
             ]
         ]);
-
-        $managerRole = Role::where('name', 'manager')->first();
-        $managerRole->syncPermissions($permissionSales);
-        $managerRole->syncPermissions($permissionProducts);
-
-        $defaultRole = Role::where('name', 'default')->first();
-        $defaultRole->givePermissionTo('sales:read');
-        $defaultRole->givePermissionTo('sales:create');
-        $defaultRole->givePermissionTo('products:read');
+        
+        Permission::factory()->createMany([
+            [
+                'name' => 'category:create',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'category:read',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'category:update',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'category:delete',
+                'guard_name' => 'web',
+            ]
+        ]);
 
     }
 }
