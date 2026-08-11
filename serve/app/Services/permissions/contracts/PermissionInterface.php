@@ -22,5 +22,5 @@ interface PermissionInterface
      * @return void
      * @throws \Exception
      */
-    public function associate(User $user, $permissions = []): void;                 
+    public function associate(User $user, string | array $permissions): void;                 
 }

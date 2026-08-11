@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($permissions as $permission)
+            @foreach ($ownPermissions as $permission)
               <tr class="dark:text-zinc-300">
                     <x-app.table-data>{{ $permission->name }}</x-app.table-data>
                     <x-app.table-data>
@@ -26,7 +26,46 @@
         </tbody>
     </x-app.table>
 
-    <a href="#" class="dark:bg-white dark:text-black px-3 py-1 rounded-md font-bold">
-        Adicionar Permissão
-    </a>
+    <x-primary-button x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'give-permission')">
+        Dar permissão
+    </x-primary-button>
+
+    <x-modal name="give-permission" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form action="{{ route('permission.give', ['user' => $user->id]) }}" method="POST">
+            @csrf
+
+
+            <h2 class="text-lg p-3 font-medium text-gray-900 dark:text-gray-100">
+                Atribua uma permissão a {{ $user->name }}
+            </h2>
+
+            <div class="mt-6">
+                <x-input-label for="permission" value="{{ __('Permissão') }}" class="sr-only" />
+
+                <x-select-input
+                    id="permission"
+                    name="permission"
+                    class="mt-1 block w-3/4"
+                    placeholder="{{ __('Criar produto') }}"
+                >
+                    <option value="">Selecione a permissão</option>
+                    @foreach ($permissions as $permission)
+                        <option value="{{ $permission->name }}" @disabled($user->can($permission->name))>
+                            {{ $permission->name }}
+                        </option>
+                    @endforeach
+                </x-select-input>
+
+            </div>
+
+            <div class="mt-6 flex justify-end gap-5">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-primary-button>Adicionar</x-primary-button>
+            </div>
+        </form>
+    </x-modal>
 </section>

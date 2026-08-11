@@ -21,6 +21,7 @@ class RegisteredUserController extends Controller
         private PermissionInterface $permissionService
     )
     {}
+    
     /**
      * Display the registration view.
      */

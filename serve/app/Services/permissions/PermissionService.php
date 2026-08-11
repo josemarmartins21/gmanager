@@ -31,16 +31,21 @@ class PermissionService implements PermissionInterface
         return $permissionsName;
     }
 
-    public function associate(User $user, $permissions = []): void
+    public function associate(User $user, string | array $permissions): void
     {
         try {
+
+            if (is_string($permissions)) {
+                $user->givePermissionTo($permissions);
+                return;
+            }
 
             foreach ($permissions as $permission) {
                 $user->givePermissionTo($permission);
             }
 
-        } catch (\Throwable) {
-            throw new \Exception("Erro ao registar o usuário");
+        } catch (\Throwable $e) {
+            throw new \Exception($e->getMessage());
             
         }
     }
