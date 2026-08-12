@@ -20,17 +20,6 @@ class PermissionService implements PermissionInterface
         }
     }
 
-    public function allPermissionName(): array 
-    {
-        $permissionsName = [];
-        
-        foreach ($this->all() as $permission) {
-            $permissionsName[] = $permission->name;
-        }
-
-        return $permissionsName;
-    }
-
     public function associate(User $user, string | array $permissions): void
     {
         try {
@@ -44,9 +33,20 @@ class PermissionService implements PermissionInterface
                 $user->givePermissionTo($permission);
             }
 
-        } catch (\Throwable $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao associar a permissão");
             
+        }
+    }
+
+    public function revoke(User $user, string $permission): void
+    {
+        try {
+            
+            $user->revokePermissionTo($permission);
+
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao revogar a permissão");
         }
     }
 }

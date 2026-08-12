@@ -17,8 +17,12 @@
               <tr class="dark:text-zinc-300">
                     <x-app.table-data>{{ $permission->name }}</x-app.table-data>
                     <x-app.table-data>
-                        <form action="" method="post">
-                            <x-primary-button>{{ __('Desassociar') }}</x-primary-button>  
+                        <form action="{{ route('permission.revoke', ['user' => $user->id]) }}" method="post">
+                            @csrf
+                            
+                            <input type="hidden" name="permission" value="{{ $permission->name }}">
+
+                            <x-primary-button onclick="return confirm('Tem a certeza que deseja desassiar o usuário da permissão?')">{{ __('Desassociar') }}</x-primary-button>  
                         </form>
                     </x-app.table-data>
                 </tr>

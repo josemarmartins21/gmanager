@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
 use Illuminate\Auth\Events\Registered;
@@ -39,13 +40,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $permissionName = $this->permissionService->allPermissionName(); 
+        $permissionsName = Permission::all()->pluck('name')->toArray();
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required','confirmed',  Rules\Password::defaults()],
-            'permissions[]' => ['nullable', Rule::in($permissionName), 'array']
+            'permissions[]' => ['nullable', Rule::in($permissionsName), 'array']
         ]);
 
         $user = User::create([

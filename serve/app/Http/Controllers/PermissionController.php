@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
+use App\Http\Requests\permissions\PermissionRequest;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class PermissionController extends Controller
 {
@@ -15,22 +13,29 @@ class PermissionController extends Controller
     )
     {}
 
-    public function joinToPermission(User $user, Request $request)
+    public function joinToPermission(User $user, PermissionRequest $request)
     {
         try {
             
-            $permissionsName = $this->permissionService->allPermissionName();
-
-            $request->validate([
-                'permission' => ['required', 'string', Rule::in($permissionsName) ]
-            ]);
-
             $this->permissionService->associate($user, $request->permission);
 
             return redirect()->back()->with('success', 'Permissão associada com sucesso!');
 
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function revokePermission(User $user, PermissionRequest $request)
+    {
+        try {
+
+            $this->permissionService->revoke($user, $request->permission);
+
+            return redirect()->back()->with('success', 'Permissão revogada com sucesso!');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }
