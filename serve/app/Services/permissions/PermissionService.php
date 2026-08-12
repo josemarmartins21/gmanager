@@ -13,10 +13,11 @@ class PermissionService implements PermissionInterface
     public function all(): Collection
     {
         try {
-            
+
             return Permission::all('name', 'id');
+            
         } catch (\Throwable) {
-            throw new \Exception("Erro ao registar o usuário");
+            throw new \Exception("Erro ao carregar as permissões");
             
         }
     }
@@ -42,7 +43,7 @@ class PermissionService implements PermissionInterface
     public function allDefaultPermission(): array
     {
         try {
-            
+
             $permissionsName = Permission::all()->pluck('name')->toArray();
             $allDefaultPermission = [];
 
@@ -55,7 +56,7 @@ class PermissionService implements PermissionInterface
             return $allDefaultPermission;
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao criar o usuário.");
+            throw new \Exception("Erro ao registar o usuário");
         }
     }
 

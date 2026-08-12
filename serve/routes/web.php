@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     
-    $users = User::all('name', 'email', 'id');
+    $users = User::select('name', 'email', 'id')->orderByDesc('created_at')->paginate(10);
 
     return view('dashboard', compact('users'));
 
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
     // Permissões
     Route::post('revoke-permission/{user}', [PermissionController::class, 'revokePermission'])->name('permission.revoke');
-    Route::post('give-permission/{user}', [PermissionController::class, 'joinToPermission'])->name('permission.give');
+    Route::post('give-permission/{user}', [PermissionController::class, 'joinPermission'])->name('permission.give');
 
 });
 

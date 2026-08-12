@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
-                                <tr>
+                                <tr class="dark:hover:bg-zinc-500">
                                     <x-app.table-data>{{ $user->name }}</x-app.table-data>
                                     <x-app.table-data>{{ $user->email }}</x-app.table-data>
                                     <x-app.table-data>
@@ -31,6 +31,8 @@
                             @endforeach
                         </tbody>
                     </x-app.table>
+                    <div class="mt-[25px]"></div>
+                    {{ $users->links() }}
                 </div>
             </div>
         </div>

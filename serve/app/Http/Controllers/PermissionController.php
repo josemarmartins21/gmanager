@@ -13,7 +13,7 @@ class PermissionController extends Controller
     )
     {}
 
-    public function joinToPermission(User $user, PermissionRequest $request)
+    public function joinPermission(User $user, PermissionRequest $request)
     {
         try {
             
