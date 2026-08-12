@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 
 class PermissionService implements PermissionInterface
 {
@@ -35,7 +36,26 @@ class PermissionService implements PermissionInterface
 
         } catch (\Throwable) {
             throw new \Exception("Erro ao associar a permissão");
+        }
+    }
+
+    public function allDefaultPermission(): array
+    {
+        try {
             
+            $permissionsName = Permission::all()->pluck('name')->toArray();
+            $allDefaultPermission = [];
+
+            foreach ($permissionsName as $permission) {
+                if (Str::contains($permission, 'read')) {
+                    $allDefaultPermission[] = $permission;
+                }
+            }
+
+            return $allDefaultPermission;
+
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao criar o usuário.");
         }
     }
 

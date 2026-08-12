@@ -24,4 +24,10 @@ interface PermissionInterface
      * @throws \Exception
     */
     public function revoke(User $user, string $permission): void;
+
+    /**
+     *  @throws \Exception
+     *  @return array
+     */
+    public function allDefaultPermission(): array;
 }
