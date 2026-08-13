@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,7 @@ class ProfileController extends Controller
     public function __construct(
         private PermissionInterface $permissionService,
     )
-    {
-        
-    }
+    {}
     /**
      * Display the user's profile form.
      */
