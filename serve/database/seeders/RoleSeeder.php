@@ -14,16 +14,9 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissions = Permission::all();    
-
         Role::factory()->create([
             'name' => 'admin',
             'guard_name' => 'web',
         ]);
-        
-        Role::factory()->create([
-            'name' => 'manager',
-            'guard_name' => 'web',
-        ])->syncPermissions($permissions);
     }
 }

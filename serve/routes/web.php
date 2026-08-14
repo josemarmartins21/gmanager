@@ -12,8 +12,6 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    Gate::allowIf(fn (User $user) => Auth::user()->hasRole('admin'));    
-
     $users = User::select('name', 'email', 'id')->orderByDesc('created_at')->paginate(10);
 
     return view('dashboard', compact('users'));
