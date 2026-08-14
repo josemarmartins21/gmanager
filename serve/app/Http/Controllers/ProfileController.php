@@ -50,7 +50,15 @@ class ProfileController extends Controller
      */
     public function destroy(User $user, Request $request): RedirectResponse
     {
+        $qtyAvaliableAmdin = User::whereHas('roles', function($query) {
+            $query->where('name', 'admin');
+        })->count();
+
         $userLoged = $request->user();
+
+        if ($qtyAvaliableAmdin <= 1 && $user->hasRole('admin')) {
+            return redirect()->back()->with('error', 'A sua conta não pode ser eliminada caso contrário o sistema não terá administrador');
+        }
 
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
