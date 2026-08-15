@@ -12,7 +12,20 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            
+            $categories = Category::select('name', 'id')
+            ->paginate(5);
+
+            return response()->json([
+                'data' => $categories,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Error fetching categories',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -28,7 +41,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        try {
+
+            $this->validate($request);
+    
+            $category = Category::create([
+                'name' => $request->name,
+                /* 'user_id' => auth()->id(), */
+            ]);
+    
+            return response()->json([
+                'data' => $category,
+            ], 201);
+            
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Error creating category',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -52,7 +84,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        try {
+            
+            $this->validate($request);
+            
+            $category->update([
+                'name' => $request->name,
+            ]);
+
+            return response()->json([
+                'message' => 'Category updated successfully',
+                'data' => $category,
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error updating category',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -60,6 +110,25 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try {
+
+            $category->delete();
+
+            return response()->json([
+                'message' => 'Category deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error deleting category',
+                'error' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function validate(Request $request): void
+    {
+        $request->validate([
+           'name' => 'required|string|max:100',
+        ]);
     }
 }
