@@ -23,7 +23,6 @@ return new class extends Migration
 
             // FK - Chaves estrangeiras
             $table->foreignId('category_id')
-            ->nullable()
             ->constrained()
             ->restrictOnDelete()
             ->restrictOnUpdate();

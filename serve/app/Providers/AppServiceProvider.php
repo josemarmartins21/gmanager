@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
 use App\Services\permissions\PermissionService;
+use App\Services\products\contracts\ProductInterface;
+use App\Services\products\ProductService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PermissionInterface::class, 
             PermissionService::class
+        );
+        
+        $this->app->bind(
+            ProductInterface::class, 
+            ProductService::class
         );
     }
 

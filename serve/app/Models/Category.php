@@ -19,4 +19,14 @@ class Category extends Model
             Log::error('Tentativa de eliminar a categoria: ' . $category->name, ['teste']);
         });
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

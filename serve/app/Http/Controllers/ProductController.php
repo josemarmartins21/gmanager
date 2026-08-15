@@ -3,16 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\products\contracts\ProductInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct(
+        private ProductInterface $productService,
+    )
+    {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try {
+
+            return $this->productService->all();
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -36,7 +51,15 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        try {
+
+            return $this->productService->get($product->id);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
