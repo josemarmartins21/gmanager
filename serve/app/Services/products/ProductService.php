@@ -56,9 +56,22 @@ class ProductService implements ProductInterface
         }
     }
 
-    public function update(Product $product, $data = [])
+    public function update(Product $product, $data = []): void
     {
-        
+        try {
+            
+            $product->updateOrFail([
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'box_price' => $data['box_price'],
+                'min_stock' => $data['min_stock'],
+                'category_id' => $data['category_id'],
+            ]);
+
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage());
+            
+        }
     }
 
     public function save($data = []): Product

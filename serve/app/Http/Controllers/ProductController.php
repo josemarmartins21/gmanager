@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Products\ProductRequest;
+use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ProductController extends Controller
 
             return $this->productService->all();
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json([
                 'message' => $th->getMessage(),
             ], 500);
@@ -54,7 +55,7 @@ class ProductController extends Controller
                 'data' => $product,
             ], 201);
             
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json([
                 'message' => $th->getMessage(),
             ], 500);
@@ -70,7 +71,7 @@ class ProductController extends Controller
 
             return $this->productService->get($product->id);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json([
                 'message' => $th->getMessage(),
             ], 500);
@@ -88,9 +89,18 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        //
+        try {
+            $validated = $request->validated();
+
+            $this->productService->update($product, $validated);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**

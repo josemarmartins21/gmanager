@@ -25,13 +25,22 @@ interface ProductInterface
     public function get(int $id);
 
     /**
-     * Store a new product
+     * Store a new product record
      * 
      * @param array $data
      * @return Product
      * @throws \Exception
      */
     public function save($data = []): Product;
+
+    /**
+     * Update a product record
+     * 
+     * @param array $data
+     * @param Product $product
+     * @return void
+     * @throws \Exception
+     */
     public function update(Product $product, $data = []);
     public function delete(Product $product);
 }
