@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\Products\ProductRequest;
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
 use Illuminate\Http\Request;
@@ -45,7 +45,14 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            //$request->validated();
+
+            $validated = $request->validated();
+
+            $product = $this->productService->save($validated);
+
+            return response()->json([
+                'data' => $product,
+            ], 201);
             
         } catch (\Throwable $th) {
             return response()->json([

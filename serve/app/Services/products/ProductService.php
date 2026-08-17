@@ -4,6 +4,7 @@ namespace App\Services\products;
 
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
+use Illuminate\Support\Facades\Auth;
 
 class ProductService implements ProductInterface
 {
@@ -60,9 +61,23 @@ class ProductService implements ProductInterface
         
     }
 
-    public function save($data = [])
+    public function save($data = []): Product
     {
-        
+        try {
+
+            return Product::create([
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'box_price' => $data['box_price'],
+                'current_stock' => $data['current_stock'],
+                'min_stock' => $data['min_stock'],
+                'category_id' => $data['category_id'],
+                /* 'user_id' => Auth::user()->id, */
+            ]);
+
+        } catch (\Throwable) {
+            throw new \Exception('Erro ao salvar o produto');
+        }
     }
 
     public function delete(Product $product)
