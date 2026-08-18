@@ -108,6 +108,18 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        try {
+            
+            $this->productService->delete($product);
+
+            return response()->json([
+                'message' => 'Producto excluido com sucesso!',
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 }

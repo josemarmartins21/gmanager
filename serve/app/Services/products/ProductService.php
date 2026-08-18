@@ -4,10 +4,14 @@ namespace App\Services\products;
 
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
+use App\Trait\ProductExcludedTrait;
 use Illuminate\Support\Facades\Auth;
+use LogicException;
 
 class ProductService implements ProductInterface
 {
+    use ProductExcludedTrait;
+    
     public function all()
     {
         try {
@@ -93,8 +97,24 @@ class ProductService implements ProductInterface
         }
     }
 
-    public function delete(Product $product)
+    public function delete(Product $product): void
     {
-        
+        try {
+            
+            if ($product->trashed()) {
+                $product->forceDelete();
+            }
+
+            $product->delete();
+
+        } catch (LogicException $th) {
+            throw new \Exception(
+               $th->getMessage() /* "Erro ao excluir o producto" */);
+            
+        } catch (\Throwable $th) {
+            throw new \Exception(
+               $th->getMessage() /* "Erro ao excluir o producto" */);
+            
+        }
     }
 }

@@ -42,5 +42,12 @@ interface ProductInterface
      * @throws \Exception
      */
     public function update(Product $product, $data = []);
+
+    /**
+     * @param Product
+     * 
+     * @throws \Exception
+     * @return void
+     */
     public function delete(Product $product);
 }
