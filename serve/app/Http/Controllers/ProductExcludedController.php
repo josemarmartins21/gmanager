@@ -47,6 +47,21 @@ class ProductExcludedController extends Controller
             ], 500);
         }
     }
+    
+    public function destroy(string $id)
+    {
+        try {
+            $this->productService->permanentlyDelete($id);
+
+            return response()->json([
+                'message' => 'Producto excluido definitivamente com sucesso!',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
 
     public function destroyAll()
     {
@@ -64,4 +79,5 @@ class ProductExcludedController extends Controller
             ], 500);
         }
     }
+
 }

@@ -35,19 +35,13 @@ trait ProductExcludedTrait
     {
         try {
 
-            $product = Product::onlyTrashed()->find($id);
+            $product = Product::onlyTrashed()->findOrFail($id);
 
-            if ($product) {
-                $product->restore();
-                return;
-            }
+            $product->restore();
 
-            throw new ModelNotFoundException("Este producto ainda não foi excluido ou já foi excluido permanentemente");
-            
-
-        } catch (ModelNotFoundException $th) {
+        } catch (ModelNotFoundException) {
             throw new \Exception(
-               $th->getMessage() /* "Erro ao excluir o producto" */);
+               "Este producto não se encontra na lixeira" /* "Erro ao excluir o producto" */);
         }
         catch (\Throwable $th) {
             throw new \Exception(
@@ -59,11 +53,40 @@ trait ProductExcludedTrait
     * @return void
     * @throws \Exception
     */
+    public function permanentlyDelete(string $id): void
+    {
+        try {
+
+            $product = Product::onlyTrashed()->findOrFail($id);
+
+            $product->forceDelete();
+            
+        } catch (ModelNotFoundException) {
+            throw new \Exception("Este producto não se encontra na lixeira");
+            
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao excluir definitivamente o producto");
+            
+        }
+    }
+
+    /**
+    * @return void
+    * @throws \Exception
+    */
     public function cleanAll(): void
     {
         try {
-            
-           Product::onlyTrashed()->forceDelete();
+
+            $nbExcluded = Product::onlyTrashed()->count();
+
+            if ($nbExcluded > 0) {
+                Product::onlyTrashed()->forceDelete();
+                return;
+            } 
+
+            throw new \Exception("A lixeira já se encontra vazia!"); 
+
 
         } catch (\Throwable $th) {
             throw new \Exception(
