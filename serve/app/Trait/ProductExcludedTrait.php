@@ -42,7 +42,7 @@ trait ProductExcludedTrait
                 return;
             }
 
-            throw new ModelNotFoundException("Este producto ainda não foi excluido!");
+            throw new ModelNotFoundException("Este producto ainda não foi excluido ou já foi excluido permanentemente");
             
 
         } catch (ModelNotFoundException $th) {
@@ -52,6 +52,22 @@ trait ProductExcludedTrait
         catch (\Throwable $th) {
             throw new \Exception(
                $th->getMessage() /* "Erro ao excluir o producto" */);
+        }
+    }
+
+    /**
+    * @return void
+    * @throws \Exception
+    */
+    public function cleanAll(): void
+    {
+        try {
+            
+           Product::onlyTrashed()->forceDelete();
+
+        } catch (\Throwable $th) {
+            throw new \Exception(
+               $th->getMessage() /* "Erro ao excluir todos os registos" */);
         }
     }
 }

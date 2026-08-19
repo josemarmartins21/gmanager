@@ -47,4 +47,21 @@ class ProductExcludedController extends Controller
             ], 500);
         }
     }
+
+    public function destroyAll()
+    {
+        try {
+           
+            $this->productService->cleanAll();
+
+            return response()->json([
+                'message' => 'Lixeira esvasiada com sucesso!',
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
 }
