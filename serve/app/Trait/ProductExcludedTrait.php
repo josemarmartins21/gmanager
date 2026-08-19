@@ -2,25 +2,25 @@
 
 namespace App\Trait;
 
+use App\Exceptions\EmptyRecycleException;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use \Illuminate\Database\Eloquent\Collection ;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 trait ProductExcludedTrait
 {
     /**
-     * @return Collection
+     * @return LengthAwarePaginator
     * @throws \Exception
     */
-    public function allTrashed(): Collection 
+    public function allTrashed(): LengthAwarePaginator 
     {
         try {
             
-            return Product::onlyTrashed()->latest()->get();
+            return Product::onlyTrashed()->latest()->paginate(10);
 
-        } catch (\Throwable $th) {
-            throw new \Exception(
-               $th->getMessage() /* "Erro ao excluir o producto" */);
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao buscar productos na reciclagem");
         }
     }
 
@@ -40,12 +40,27 @@ trait ProductExcludedTrait
             $product->restore();
 
         } catch (ModelNotFoundException) {
-            throw new \Exception(
-               "Este producto não se encontra na lixeira" /* "Erro ao excluir o producto" */);
+            throw new \Exception("Este producto não se encontra na lixeira");
+
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao excluir o producto");
         }
-        catch (\Throwable $th) {
-            throw new \Exception(
-               $th->getMessage() /* "Erro ao excluir o producto" */);
+    }
+
+    public function restoreAll()
+    {
+        try {
+            
+            $this->hasExcluded();
+
+            Product::onlyTrashed()->restore();
+
+        } catch (EmptyRecycleException $e) {
+            throw new \Exception($e->getMessage());
+            
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao restaurar os productos");
+            
         }
     }
 
@@ -78,19 +93,28 @@ trait ProductExcludedTrait
     {
         try {
 
-            $nbExcluded = Product::onlyTrashed()->count();
+            $this->hasExcluded();
 
-            if ($nbExcluded > 0) {
-                Product::onlyTrashed()->forceDelete();
-                return;
-            } 
+            Product::onlyTrashed()->forceDelete();
 
-            throw new \Exception("A lixeira já se encontra vazia!"); 
+        } catch (EmptyRecycleException $e) {
+            throw new \Exception($e->getMessage());
+            
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao excluir todos os registos");
+        }
+    }
 
+    /**
+    * @return void
+    * @throws \Exception
+    */
+    public function hasExcluded(): void
+    {
+        $nbExcluded = Product::onlyTrashed()->count();
 
-        } catch (\Throwable $th) {
-            throw new \Exception(
-               $th->getMessage() /* "Erro ao excluir todos os registos" */);
+        if ($nbExcluded === 0) {
+            throw new EmptyRecycleException("A lixeira se encontra vazia!"); 
         }
     }
 }

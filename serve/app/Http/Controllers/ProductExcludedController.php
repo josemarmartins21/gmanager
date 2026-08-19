@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
-use Illuminate\Http\Request;
-
 class ProductExcludedController extends Controller
 {
     public function __construct(
         private ProductInterface $productService,
     )
-    {
-        
-    }
+    {}
     
     public function index()
     {
@@ -39,6 +35,23 @@ class ProductExcludedController extends Controller
             return response()->json([
                 'message' => 'Producto restaurado com successo!',
                 'data' => Product::find($id),
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function restoreAll()
+    {
+        try {
+            
+            $this->productService->restoreAll();
+
+            return response()->json([
+                'message' => 'Productos restaurados com successo!',
             ]);
 
         } catch (\Throwable $th) {

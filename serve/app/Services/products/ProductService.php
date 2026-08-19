@@ -5,7 +5,7 @@ namespace App\Services\products;
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
 use App\Trait\ProductExcludedTrait;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LogicException;
 
 class ProductService implements ProductInterface
@@ -33,8 +33,8 @@ class ProductService implements ProductInterface
                 'data' => $product,
             ]);
 
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao carrgar os produtos. Tente novamente");
         }
     }
 
@@ -42,11 +42,7 @@ class ProductService implements ProductInterface
     {
         try {
 
-            $product = Product::find($id);
-            
-            if (! $product) {
-                throw new \Exception('Producto não encontrado');
-            }    
+            $product = Product::findOrFail($id);   
 
             return response()->json([
                 'data' => [
@@ -55,8 +51,11 @@ class ProductService implements ProductInterface
                 ],
             ]);
 
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (ModelNotFoundException) {
+            throw new \Exception("Produto não encontrado");
+        }
+        catch (\Throwable) {
+            throw new \Exception("Erro ao buscar o produto. Tente novamente");
         }
     }
 
@@ -100,20 +99,14 @@ class ProductService implements ProductInterface
     public function delete(Product $product): void
     {
         try {
-            
-            if ($product->trashed()) {
-                $product->forceDelete();
-            }
 
             $product->delete();
 
-        } catch (LogicException $th) {
-            throw new \Exception(
-               $th->getMessage() /* "Erro ao excluir o producto" */);
+        } catch (LogicException) {
+            throw new \Exception("Erro ao excluir o producto");
             
-        } catch (\Throwable $th) {
-            throw new \Exception(
-               $th->getMessage() /* "Erro ao excluir o producto" */);
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao excluir o producto");
             
         }
     }
