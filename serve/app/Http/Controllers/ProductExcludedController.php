@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
-use Illuminate\Http\Request;
-
 class ProductExcludedController extends Controller
 {
     public function __construct(
         private ProductInterface $productService,
     )
-    {
-        
-    }
+    {}
     
     public function index()
     {
@@ -47,4 +43,54 @@ class ProductExcludedController extends Controller
             ], 500);
         }
     }
+
+    public function restoreAll()
+    {
+        try {
+            
+            $this->productService->restoreAll();
+
+            return response()->json([
+                'message' => 'Productos restaurados com successo!',
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+    
+    public function destroy(string $id)
+    {
+        try {
+            $this->productService->permanentlyDelete($id);
+
+            return response()->json([
+                'message' => 'Producto excluido definitivamente com sucesso!',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function destroyAll()
+    {
+        try {
+           
+            $this->productService->cleanAll();
+
+            return response()->json([
+                'message' => 'Lixeira esvasiada com sucesso!',
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
 }
