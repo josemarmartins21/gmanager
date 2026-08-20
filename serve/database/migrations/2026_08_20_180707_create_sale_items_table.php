@@ -13,21 +13,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('sale_items', function (Blueprint $table) {
             $table->id();
 
             // Atributos fundamentais
-            $table->decimal('total');
-            $table->decimal('total_payed');
-            $table->boolean('status');
-            $table->text('note')->nullable();
+            $table->integer('qty');
+            $table->decimal('subtotal');
+            $table->string('product_name');
+            $table->decimal('product_price');
 
             // FK - Chaves estrangeiras
-            $table->foreignId('user_id')
-            ->nullable()
-            ->constrained()
-            ->nullOnDelete()
-            ->nullOnUpdate();
+            $table->foreignIdFor(Product::class, 'product_id');
+            $table->foreignIdFor(Sale::class, 'sale_id')->nullable();
 
             $table->timestamps();
         });
@@ -38,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('sale_items');
     }
 };
