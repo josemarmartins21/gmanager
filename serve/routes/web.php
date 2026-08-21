@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SaleItemController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -17,6 +18,15 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('users'));
 
 })->middleware(['auth', 'verified', 'can:admin-access'])->name('dashboard');
+
+Route::prefix('sale-items')->group(function() {
+    Route::get('items/{id}', [SaleItemController::class, 'show']);
+    Route::post('items/{product}', [SaleItemController::class, 'store']);
+    Route::post('flush-all', [SaleItemController::class, 'removeAll']);
+    Route::post('flush', [SaleItemController::class, 'destroy']);
+    Route::get('items', [SaleItemController::class, 'index']);
+
+});
 
 Route::middleware(['auth', 'can:admin-access'])->group(function () {
     Route::get('/profile/{user}', [ProfileController::class, 'edit'])->name('profile.edit');

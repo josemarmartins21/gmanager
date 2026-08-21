@@ -20,13 +20,11 @@ class SaleItemSeeder extends Seeder
         $isPayed = fake()->boolean(70);
         $randomPorcentPayed = (float) fake()->numberBetween(1, 10) / 9;
 
-
         foreach ($saleItems as $item) {
             $total += $item->subtotal;
         }
 
-
-        $sale = Sale::create([
+        Sale::create([
             'total' => $total,
             'status' => fake()->boolean(70),
             'note' => fake()->text(),
