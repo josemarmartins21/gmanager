@@ -23,4 +23,14 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function saleItems()
+    {
+        return $this->hasMany(SaleItem::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

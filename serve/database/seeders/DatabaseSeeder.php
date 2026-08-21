@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             CategorySeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
+            SaleItemSeeder::class,
         ]);
     }
 }
