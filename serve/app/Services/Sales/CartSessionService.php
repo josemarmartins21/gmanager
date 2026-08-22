@@ -4,29 +4,33 @@ namespace App\Services\Sales;
 
 use App\Models\Product;
 use App\Services\Sales\Contracts\CartSessionInterface;
+use App\Trait\QuantityValidationTrait;
 
 class CartSessionService implements CartSessionInterface
 {
+    use QuantityValidationTrait;
+
     public function add(int $product_id, int $qty): void
     {
-        try {
-
-    
-            if ($qty <= 0) {
-                throw new \Exception('A quantidade deve ser maior que zero.');
-            }
+        try {    
+            
+            $product = Product::findOrFail($product_id);
+            $this->validateQuantity($qty);
 
             $cart = session('sale.cart', []);
 
-            $product = Product::find($product_id);
-
             if (isset($cart[$product->id])) {
-                $cart[$product->id]['qty'] += $qty;
+                $newQty = $cart[$product->id]['qty'] + $qty;
+                $this->checkQuantity($product, $newQty);
+                
+                $cart[$product->id]['qty'] = $newQty;
             } else {
+                $this->checkQuantity($product, $qty);
+
                 $cart[$product->id] = [
                     'product_id' => $product->id,
-                    'name' => $product->name,
-                    'price' => $product->price,
+                    'product_name' => $product->name,
+                    'product_price' => $product->price,
                     'qty' => $qty,
                 ];
             }
@@ -35,7 +39,6 @@ class CartSessionService implements CartSessionInterface
 
         } catch (\Throwable $th) {
             throw new \Exception($th->getMessage());
-            
         }
     }
 
