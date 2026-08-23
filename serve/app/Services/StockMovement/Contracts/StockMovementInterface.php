@@ -3,6 +3,7 @@
 namespace App\Services\StockMovement\Contracts;
 
 use App\Models\StockMovement;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface StockMovementInterface
 {
@@ -20,4 +21,10 @@ interface StockMovementInterface
      * @throws \Exception
      */
     public function update(StockMovement $stockMovement, $data = []): void;
+
+    /**
+     * @return LengthAwarePaginator
+     * @throws \Exception
+     */
+    public function all(): LengthAwarePaginator;
 }

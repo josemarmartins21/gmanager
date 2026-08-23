@@ -9,6 +9,7 @@ use App\Models\StockMovement;
 use App\Services\StockMovement\Contracts\StockMovementInterface;
 use App\Trait\QuantityValidationTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use ValueError;
@@ -16,6 +17,30 @@ use ValueError;
 class StockMovementService implements StockMovementInterface
 {
     use QuantityValidationTrait;
+
+    public function all(): LengthAwarePaginator
+    {
+        try {
+
+            $attributes = [
+                'stock_movements.product_name',
+                'stock_movements.total_units',
+                'stock_movements.box_qty',
+                'stock_movements.type',
+                'stock_movements.box_price',
+                'users.name',
+            ];
+
+            return StockMovement::select($attributes)
+            ->leftJoin('users', 'users.id', '=', 'stock_movements.user_id')
+            ->orderByDesc('stock_movements.created_at')
+            ->paginate(6);
+
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao listar as movimentações de estoque");
+            
+        }
+    }
 
     public function save($data = []): void
     {
@@ -104,8 +129,8 @@ class StockMovementService implements StockMovementInterface
                 $product->decrement('current_stock', $qty);
             }
 
-        } catch (InsufficientStockException) {
-            throw new InsufficientStockException("Ok, mas a quantidade actual deste producto é inferior a quantidade que deseja diminuir para ajustar");
+        } catch (InsufficientStockException $e) {
+            throw new \Exception($e->getMessage());
 
         } catch (ValueError) {
             throw new \Exception("Tipo de operação inválida");

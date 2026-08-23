@@ -18,7 +18,19 @@ class StockMovementController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            
+            $stockMovements = $this->stockMovement->all();
+
+            return response()->json([
+                'data' => $stockMovements
+            ]);
+
+        } catch (\Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -43,19 +55,11 @@ class StockMovementController extends Controller
                 'data' => $validated,
             ]);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json([
                 'message' => $th->getMessage(),
-            ]);
+            ], 500);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(StockMovement $stockMovement)
-    {
-        //
     }
 
     /**
@@ -80,7 +84,7 @@ class StockMovementController extends Controller
                 'data' => $stockMovement->fresh(),
             ]);
             
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json([
                 'message' => $th->getMessage(),
             ], 500);
