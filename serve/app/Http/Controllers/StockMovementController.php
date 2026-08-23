@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StockMovement\StockMovementRequest;
 use App\Models\StockMovement;
 use App\Services\StockMovement\Contracts\StockMovementInterface;
-use Illuminate\Http\Request;
 
 class StockMovementController extends Controller
 {
@@ -70,9 +69,22 @@ class StockMovementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, StockMovement $stockMovement)
+    public function update(StockMovement $stockMovement, StockMovementRequest $request)
     {
-        //
+        try {
+
+            $this->stockMovement->update($stockMovement, $request->validated());
+
+            return response()->json([
+                'message' => 'Movimentação de estoque actualizada com sucesso!',
+                'data' => $stockMovement->fresh(),
+            ]);
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**

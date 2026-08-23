@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 #[Fillable(['box_price', 'note', 'total_units', 'product_id',
-'units_per_box', 'product_name', 'box_qty'])]
+'units_per_box', 'product_name', 'box_qty', 'type'])]
 class StockMovement extends Model
 {
     /** @use HasFactory<\Database\Factories\StockMovementFactory> */
