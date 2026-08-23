@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleItemController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('users'));
 
 })->middleware(['auth', 'verified', 'can:admin-access'])->name('dashboard');
+
+Route::resource('sales', SaleController::class)->except(['update', 'edit']);
 
 Route::prefix('sale-items')->group(function() {
     Route::get('items/{id}', [SaleItemController::class, 'show']);

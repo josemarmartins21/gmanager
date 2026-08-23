@@ -23,8 +23,17 @@ return new class extends Migration
             $table->decimal('product_price');
 
             // FK - Chaves estrangeiras
-            $table->foreignIdFor(Product::class, 'product_id');
-            $table->foreignIdFor(Sale::class, 'sale_id')->nullable();
+            $table->foreignIdFor(Product::class, 'product_id')
+            ->nullable()
+            ->constrained()
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
+            
+            $table->foreignIdFor(Sale::class, 'sale_id')
+            ->nullable()
+            ->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
 
             $table->timestamps();
         });
