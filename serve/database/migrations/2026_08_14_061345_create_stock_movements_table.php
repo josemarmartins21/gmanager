@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
 
             // Atributos fundamentais
-            $table->integer('box_qty')->nullable();
-            $table->integer('units_per_box')->nullable();
+            $table->integer('box_qty')->nullable()->default(0);
+            $table->integer('units_per_box')->nullable()->default(0);
             $table->integer('total_units');
             $table->text('note');
+            $table->enum('type', ['IN', 'lose', 'adjustment']);
 
             $table->string('product_name');
             $table->decimal('box_price')->nullable();

@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StockMovement\StockMovementRequest;
 use App\Models\StockMovement;
+use App\Services\StockMovement\Contracts\StockMovementInterface;
 use Illuminate\Http\Request;
 
 class StockMovementController extends Controller
 {
+    public function __construct(
+        private StockMovementInterface $stockMovement,
+    )
+    {}
+
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +33,22 @@ class StockMovementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StockMovementRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            
+            $this->stockMovement->save($validated);
+
+            return response()->json([
+                'data' => $validated,
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ]);
+        }
     }
 
     /**
