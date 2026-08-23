@@ -9,11 +9,34 @@ use App\Models\Sale;
 use App\Services\Sales\Contracts\SaleInterface;
 use App\Trait\QuantityValidationTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class SaleService implements SaleInterface
 {
     use QuantityValidationTrait;
+
+    public function all(): LengthAwarePaginator
+    {
+        try {
+
+            $attributes = [
+                'sales.total', 
+                'sales.total_payed', 
+                'sales.status', 
+                'sales.created_at', 
+                'users.name',
+            ];
+
+            return Sale::select($attributes)
+            ->leftJoin('users', 'users.id', '=', 'sales.user_id')
+            ->orderByDesc('sales.created_at')
+            ->paginate(8);
+            
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage());
+        }
+    }
     
     public function save($saleItems = [], $saleDetails = []): void
     {
@@ -77,6 +100,25 @@ class SaleService implements SaleInterface
     {
         if (count($products) === 0) {
             throw new EmptyCartException("Carrinho vazio. Adicione ao menos um producto antes de finalizar a venda");
+        }
+    }
+
+    public function delete(Sale $sale): void
+    {
+        try {
+            DB::transaction(function () use ($sale): void {
+                foreach ($sale->saleItems as $saleItem) {
+                    $product = Product::query()
+                        ->lockForUpdate()
+                        ->findOrFail($saleItem->product_id);
+
+                    $product->increment('current_stock', $saleItem->qty);
+                }
+
+                $sale->delete();
+            });
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage());
         }
     }
     

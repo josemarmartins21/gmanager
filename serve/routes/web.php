@@ -19,7 +19,9 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('users'));
 
 })->middleware(['auth', 'verified', 'can:admin-access'])->name('dashboard');
-Route::resource('sales', SaleController::class);
+
+Route::resource('sales', SaleController::class)->except(['update', 'edit']);
+
 Route::prefix('sale-items')->group(function() {
     Route::get('items/{id}', [SaleItemController::class, 'show']);
     Route::post('items/{product}', [SaleItemController::class, 'store']);
