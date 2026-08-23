@@ -2,17 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StockMovement\StockMovementRequest;
 use App\Models\StockMovement;
-use Illuminate\Http\Request;
+use App\Services\StockMovement\Contracts\StockMovementInterface;
 
 class StockMovementController extends Controller
 {
+    public function __construct(
+        private StockMovementInterface $stockMovement,
+    )
+    {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try {
+            
+            $stockMovements = $this->stockMovement->all();
+
+            return response()->json([
+                'data' => $stockMovements
+            ]);
+
+        } catch (\Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -26,17 +44,22 @@ class StockMovementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StockMovementRequest $request)
     {
-        //
-    }
+        try {
+            $validated = $request->validated();
+            
+            $this->stockMovement->save($validated);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(StockMovement $stockMovement)
-    {
-        //
+            return response()->json([
+                'data' => $validated,
+            ]);
+
+        } catch (\Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -50,9 +73,22 @@ class StockMovementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, StockMovement $stockMovement)
+    public function update(StockMovement $stockMovement, StockMovementRequest $request)
     {
-        //
+        try {
+
+            $this->stockMovement->update($stockMovement, $request->validated());
+
+            return response()->json([
+                'message' => 'Movimentação de estoque actualizada com sucesso!',
+                'data' => $stockMovement->fresh(),
+            ]);
+            
+        } catch (\Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
