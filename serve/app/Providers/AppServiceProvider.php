@@ -9,6 +9,8 @@ use App\Services\products\contracts\ProductInterface;
 use App\Services\products\ProductService;
 use App\Services\Sales\CartSessionService;
 use App\Services\Sales\Contracts\CartSessionInterface;
+use App\Services\Sales\Contracts\SaleInterface;
+use App\Services\Sales\SaleService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CartSessionInterface::class, 
             CartSessionService::class
+        );
+        
+        $this->app->bind(
+            SaleInterface::class, 
+            SaleService::class
         );
     }
 
