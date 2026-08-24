@@ -73,8 +73,8 @@ class StockMovementService implements StockMovementInterface
         } catch (ModelNotFoundException) {
             throw new \Exception("Producto não encontrado!");
 
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao salvar a movimentação de estoque");
 
         }
     }
@@ -112,7 +112,7 @@ class StockMovementService implements StockMovementInterface
         catch (InsufficientStockException $th) {
             throw new \Exception($th->getMessage());
         }
-        catch (\Throwable $th) {
+        catch (\Throwable) {
             throw new \Exception("Erro ao actualizar a movimentação de estoque");
         }
     }
@@ -135,8 +135,8 @@ class StockMovementService implements StockMovementInterface
         } catch (ValueError) {
             throw new \Exception("Tipo de operação inválida");
 
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao atualizar o estoque");
         }
     }
 }

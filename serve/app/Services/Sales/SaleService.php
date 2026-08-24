@@ -33,8 +33,8 @@ class SaleService implements SaleInterface
             ->orderByDesc('sales.created_at')
             ->paginate(8);
             
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao listar as vendas");
         }
     }
     
@@ -90,8 +90,8 @@ class SaleService implements SaleInterface
             throw new \Exception("Producto inválido inserido ao carrinho");
         } catch (EmptyCartException $th) {
             throw new \Exception($th->getMessage());
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao registrar a venda");
         }    
         
     }
@@ -117,8 +117,8 @@ class SaleService implements SaleInterface
 
                 $sale->delete();
             });
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao excluir a venda");
         }
     }
     

@@ -71,8 +71,8 @@ class ProductService implements ProductInterface
                 'category_id' => $data['category_id'],
             ]);
 
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao atualizar o produto");
             
         }
     }
