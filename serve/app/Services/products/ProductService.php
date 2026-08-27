@@ -20,6 +20,7 @@ class ProductService implements ProductInterface
                 'products.name',
                 'products.price',
                 'products.current_stock',
+                'products.box_price',
                 'categories.name as category_name',
                 'products.created_at',
             ];
@@ -29,9 +30,7 @@ class ProductService implements ProductInterface
             ->orderByDesc('products.created_at')
             ->paginate(8);
 
-            return response()->json([
-                'data' => $product,
-            ]);
+            return $product;
 
         } catch (\Throwable) {
             throw new \Exception("Erro ao carrgar os produtos. Tente novamente");

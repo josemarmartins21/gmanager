@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductExcludedController;
 use App\Http\Controllers\StockMovementController;
@@ -16,4 +17,8 @@ Route::prefix('lixeira')->group(function() {
     Route::post('products/restore-all', [ProductExcludedController::class, 'restoreAll']);
     Route::post('products/clean-all', [ProductExcludedController::class, 'destroyAll']);
     Route::delete('products/{id}/delete-permanently', [ProductExcludedController::class, 'destroy']);
+});
+
+Route::prefix('pdfs')->group(function() {
+    Route::get('{typePdf}', [PdfController::class, 'download']);
 });
