@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Products\ProductRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Product;
+use App\Models\User;
 use App\Services\products\contracts\ProductInterface;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -22,12 +24,13 @@ class ProductController extends Controller
     {
         try {
 
-            return $this->productService->all();
+            Gate::allowIf(fn (User $user) => $user->can('products:read') || $user->hasRole('admin'));
+            $products = $this->productService->all();
+
+            return view('products.index', compact('products'));
 
         } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+            return back()->with('error', $th->getMessage());
         }
     }
 

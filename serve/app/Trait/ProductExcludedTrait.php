@@ -20,7 +20,7 @@ trait ProductExcludedTrait
             return Product::onlyTrashed()->latest()->paginate(10);
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao buscar productos na reciclagem");
+            throw new \Exception("Não foi possível carregar os produtos na reciclagem. Por favor, tente novamente.");
         }
     }
 
@@ -40,10 +40,10 @@ trait ProductExcludedTrait
             $product->restore();
 
         } catch (ModelNotFoundException) {
-            throw new \Exception("Este producto não se encontra na lixeira");
+            throw new \Exception("Este produto não se encontra na reciclagem.");
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao excluir o producto");
+            throw new \Exception("Não foi possível restaurar o produto. Por favor, tente novamente.");
         }
     }
 
@@ -59,7 +59,7 @@ trait ProductExcludedTrait
             throw new \Exception($e->getMessage());
             
         } catch (\Throwable) {
-            throw new \Exception("Erro ao restaurar os productos");
+            throw new \Exception("Não foi possível restaurar os produtos. Por favor, tente novamente.");
             
         }
     }
@@ -77,10 +77,10 @@ trait ProductExcludedTrait
             $product->forceDelete();
             
         } catch (ModelNotFoundException) {
-            throw new \Exception("Este producto não se encontra na lixeira");
+            throw new \Exception("Este produto não se encontra na reciclagem.");
             
         } catch (\Throwable) {
-            throw new \Exception("Erro ao excluir definitivamente o producto");
+            throw new \Exception("Não foi possível eliminar definitivamente o produto. Por favor, tente novamente.");
             
         }
     }
@@ -101,7 +101,7 @@ trait ProductExcludedTrait
             throw new \Exception($e->getMessage());
             
         } catch (\Throwable) {
-            throw new \Exception("Erro ao excluir todos os registos");
+            throw new \Exception("Não foi possível eliminar todos os registos. Por favor, tente novamente.");
         }
     }
 
@@ -114,7 +114,7 @@ trait ProductExcludedTrait
         $nbExcluded = Product::onlyTrashed()->count();
 
         if ($nbExcluded === 0) {
-            throw new EmptyRecycleException("A lixeira se encontra vazia!"); 
+            throw new EmptyRecycleException("A reciclagem está vazia."); 
         }
     }
 }
