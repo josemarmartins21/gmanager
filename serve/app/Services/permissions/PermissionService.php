@@ -17,7 +17,7 @@ class PermissionService implements PermissionInterface
             return Permission::all('name', 'id');
             
         } catch (\Throwable) {
-            throw new \Exception("Erro ao carregar as permissões");
+            throw new \Exception("Não foi possível carregar as permissões. Por favor, tente novamente.");
             
         }
     }
@@ -36,7 +36,7 @@ class PermissionService implements PermissionInterface
             }
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao associar a permissão");
+            throw new \Exception("Não foi possível atribuir a permissão. Por favor, tente novamente.");
         }
     }
 
@@ -56,7 +56,7 @@ class PermissionService implements PermissionInterface
             return $allDefaultPermission;
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao registar o usuário");
+            throw new \Exception("Não foi possível carregar as permissões padrão. Por favor, tente novamente.");
         }
     }
 
@@ -67,7 +67,7 @@ class PermissionService implements PermissionInterface
             $user->revokePermissionTo($permission);
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao revogar a permissão");
+            throw new \Exception("Não foi possível retirar a permissão. Por favor, tente novamente.");
         }
     }
 }

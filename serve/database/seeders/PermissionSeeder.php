@@ -34,19 +34,19 @@ class PermissionSeeder extends Seeder
     
         Permission::factory()->createMany([
             [
-                'name' => 'product:create',
+                'name' => 'products:create',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'product:read',
+                'name' => 'products:read',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'product:update',
+                'name' => 'products:update',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'product:delete',
+                'name' => 'products:delete',
                 'guard_name' => 'web',
             ]
         ]);

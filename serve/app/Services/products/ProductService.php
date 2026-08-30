@@ -18,6 +18,7 @@ class ProductService implements ProductInterface
 
             $attributes = [
                 'products.name',
+                'products.id',
                 'products.price',
                 'products.current_stock',
                 'products.box_price',
@@ -28,12 +29,12 @@ class ProductService implements ProductInterface
             $product = Product::select($attributes)
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->orderByDesc('products.created_at')
-            ->paginate(8);
+            ->paginate(6);
 
             return $product;
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao carrgar os produtos. Tente novamente");
+            throw new \Exception("Não foi possível carregar a lista de produtos. Por favor, tente novamente.");
         }
     }
 
@@ -51,10 +52,10 @@ class ProductService implements ProductInterface
             ]);
 
         } catch (ModelNotFoundException) {
-            throw new \Exception("Produto não encontrado");
+            throw new \Exception("Não encontrámos o produto solicitado.");
         }
         catch (\Throwable) {
-            throw new \Exception("Erro ao buscar o produto. Tente novamente");
+            throw new \Exception("Não foi possível consultar o produto. Por favor, tente novamente.");
         }
     }
 
@@ -71,7 +72,7 @@ class ProductService implements ProductInterface
             ]);
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao atualizar o produto");
+            throw new \Exception("Não foi possível actualizar o produto. Por favor, tente novamente.");
             
         }
     }
@@ -84,14 +85,14 @@ class ProductService implements ProductInterface
                 'name' => $data['name'],
                 'price' => $data['price'],
                 'box_price' => $data['box_price'],
-                'current_stock' => $data['current_stock'],
+                'current_stock' => $data['current_stock'] ?? 0,
                 'min_stock' => $data['min_stock'],
                 'category_id' => $data['category_id'],
                 /* 'user_id' => Auth::user()->id, */
             ]);
 
-        } catch (\Throwable) {
-            throw new \Exception('Erro ao salvar o produto');
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage()/* 'Não foi possível guardar o produto. Por favor, tente novamente.' */);
         }
     }
 
@@ -102,10 +103,10 @@ class ProductService implements ProductInterface
             $product->delete();
 
         } catch (LogicException) {
-            throw new \Exception("Erro ao excluir o producto");
+            throw new \Exception("Não foi possível eliminar o produto. Por favor, tente novamente.");
             
         } catch (\Throwable) {
-            throw new \Exception("Erro ao excluir o producto");
+            throw new \Exception("Não foi possível eliminar o produto. Por favor, tente novamente.");
             
         }
     }

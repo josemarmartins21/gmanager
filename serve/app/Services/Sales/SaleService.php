@@ -34,7 +34,7 @@ class SaleService implements SaleInterface
             ->paginate(8);
             
         } catch (\Throwable) {
-            throw new \Exception("Erro ao listar as vendas");
+            throw new \Exception("Não foi possível carregar a lista de vendas. Por favor, tente novamente.");
         }
     }
     
@@ -87,11 +87,11 @@ class SaleService implements SaleInterface
         } catch (InsufficientStockException $e) {
             throw new \Exception($e->getMessage());
         } catch (ModelNotFoundException) {
-            throw new \Exception("Producto inválido inserido ao carrinho");
+            throw new \Exception("O produto seleccionado não é válido para esta venda.");
         } catch (EmptyCartException $th) {
             throw new \Exception($th->getMessage());
         } catch (\Throwable) {
-            throw new \Exception("Erro ao registrar a venda");
+            throw new \Exception("Não foi possível registar a venda. Por favor, tente novamente.");
         }    
         
     }
@@ -99,7 +99,7 @@ class SaleService implements SaleInterface
     private function checkIfHasProduct($products = []): void
     {
         if (count($products) === 0) {
-            throw new EmptyCartException("Carrinho vazio. Adicione ao menos um producto antes de finalizar a venda");
+            throw new EmptyCartException("O carrinho está vazio. Adicione pelo menos um produto antes de finalizar a venda.");
         }
     }
 
@@ -118,7 +118,7 @@ class SaleService implements SaleInterface
                 $sale->delete();
             });
         } catch (\Throwable) {
-            throw new \Exception("Erro ao excluir a venda");
+            throw new \Exception("Não foi possível eliminar a venda. Por favor, tente novamente.");
         }
     }
     

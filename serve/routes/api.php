@@ -1,5 +1,5 @@
 <?php
-
+/* 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProductController;
@@ -21,4 +21,4 @@ Route::prefix('lixeira')->group(function() {
 
 Route::prefix('pdfs')->group(function() {
     Route::get('{typePdf}', [PdfController::class, 'download']);
-});
+}); */

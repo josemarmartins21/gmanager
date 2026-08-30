@@ -73,7 +73,7 @@ class CartSessionService implements CartSessionInterface
             $cart = session('sale.cart', []);
 
             if (! isset($cart[$id])) {
-                throw new \Exception("Este produto não se encontra no carrinho!");
+                throw new \Exception("Este produto não está no carrinho.");
             }
             
             unset($cart[$id]);

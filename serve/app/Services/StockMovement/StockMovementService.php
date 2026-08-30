@@ -37,7 +37,7 @@ class StockMovementService implements StockMovementInterface
             ->paginate(6);
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao listar as movimentações de estoque");
+            throw new \Exception("Não foi possível carregar a lista de movimentos de stock. Por favor, tente novamente.");
             
         }
     }
@@ -71,10 +71,10 @@ class StockMovementService implements StockMovementInterface
             throw new \Exception($e->getMessage());
 
         } catch (ModelNotFoundException) {
-            throw new \Exception("Producto não encontrado!");
+            throw new \Exception("Não encontrámos o produto solicitado.");
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao salvar a movimentação de estoque");
+            throw new \Exception("Não foi possível guardar o movimento de stock. Por favor, tente novamente.");
 
         }
     }
@@ -106,14 +106,14 @@ class StockMovementService implements StockMovementInterface
             });
             
         } catch (ModelNotFoundException) {
-            throw new \Exception("Producto não encontrado!");
+            throw new \Exception("Não encontrámos o produto solicitado.");
 
         } 
         catch (InsufficientStockException $th) {
             throw new \Exception($th->getMessage());
         }
         catch (\Throwable) {
-            throw new \Exception("Erro ao actualizar a movimentação de estoque");
+            throw new \Exception("Não foi possível actualizar o movimento de stock. Por favor, tente novamente.");
         }
     }
 
@@ -133,10 +133,10 @@ class StockMovementService implements StockMovementInterface
             throw new \Exception($e->getMessage());
 
         } catch (ValueError) {
-            throw new \Exception("Tipo de operação inválida");
+            throw new \Exception("O tipo de operação seleccionado não é válido.");
 
         } catch (\Throwable) {
-            throw new \Exception("Erro ao atualizar o estoque");
+            throw new \Exception("Não foi possível actualizar o stock. Por favor, tente novamente.");
         }
     }
 }
