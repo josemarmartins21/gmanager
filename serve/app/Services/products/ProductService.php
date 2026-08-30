@@ -85,14 +85,14 @@ class ProductService implements ProductInterface
                 'name' => $data['name'],
                 'price' => $data['price'],
                 'box_price' => $data['box_price'],
-                'current_stock' => $data['current_stock'],
+                'current_stock' => $data['current_stock'] ?? 0,
                 'min_stock' => $data['min_stock'],
                 'category_id' => $data['category_id'],
                 /* 'user_id' => Auth::user()->id, */
             ]);
 
-        } catch (\Throwable) {
-            throw new \Exception('Não foi possível guardar o produto. Por favor, tente novamente.');
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage()/* 'Não foi possível guardar o produto. Por favor, tente novamente.' */);
         }
     }
 
