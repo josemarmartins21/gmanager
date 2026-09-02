@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,5 +24,6 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
+        $user->syncPermissions(Permission::all());
     }
 }

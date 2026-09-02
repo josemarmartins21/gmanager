@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('products:read') || $user->hasRole('admin'));
+            Gate::allowIf(fn (User $user) => $user->can('products:read'));
             $products = $this->productService->all();
 
             return view('products.index', compact('products'));
