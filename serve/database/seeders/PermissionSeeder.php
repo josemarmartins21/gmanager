@@ -48,7 +48,11 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'products:delete',
                 'guard_name' => 'web',
-            ]
+            ],
+            [
+                'name' => 'products:force-delete',
+                'guard_name' => 'web',
+            ],
         ]);
         
         Permission::factory()->createMany([

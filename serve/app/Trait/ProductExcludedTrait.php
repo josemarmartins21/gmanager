@@ -17,7 +17,7 @@ trait ProductExcludedTrait
     {
         try {
             
-            return Product::onlyTrashed()->latest()->paginate(10);
+            return Product::onlyTrashed()->latest()->paginate(6);
 
         } catch (\Throwable) {
             throw new \Exception("Não foi possível carregar os produtos na reciclagem. Por favor, tente novamente.");

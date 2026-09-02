@@ -27,6 +27,7 @@ class ProductController extends Controller
         try {
 
             Gate::allowIf(fn (User $user) => $user->can('products:read'));
+
             $products = $this->productService->all();
 
             return view('products.index', compact('products'));
@@ -41,7 +42,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
+        Gate::allowIf(fn (User $user) => $user->can('products:create'));
+
         $categories = Category::all('name', 'id');
 
         return view('products.create', compact('categories'));
@@ -53,6 +55,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('products:create'));
 
             $validated = $request->validated();
 
@@ -71,6 +74,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('products:read'));
 
             return $this->productService->get($product->id);
 
@@ -86,7 +90,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        Gate::allowIf(fn (User $user) => $user->can('products:update'));
+
+        return view('products.edit', [
+            'product' => $product,
+            'categories' => Category::all('name', 'id'),
+        ]);
     }
 
     /**
@@ -95,14 +104,16 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product)
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('products:update'));
+
             $validated = $request->validated();
 
             $this->productService->update($product, $validated);
 
+            return redirect()->back()->with('success', Str::ucwords($product->name) . ' actualizada(o) com sucesso!');
+
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -112,17 +123,14 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-            
+            Gate::allowIf(fn (User $user) => $user->can('products:delete'));
+
             $this->productService->delete($product);
 
-            return response()->json([
-                'message' => 'Producto excluido com sucesso!',
-            ]);
+            return redirect()->route('products.index')->with('success', Str::ucwords($product->name) . ' eliminada(o) com sucesso!');
 
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+        } catch (\Exception $th) {
+            return back()->withInput()->with('error', $th->getMessage());
         }
     }
 }

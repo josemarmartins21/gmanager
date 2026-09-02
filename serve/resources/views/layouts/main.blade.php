@@ -58,6 +58,13 @@
                         Productos
                     </x-dashboard.link-nav>
                     <x-dashboard.link-nav 
+                        href="{{ route('products-recycle.index') }}"
+                        :active="request()->routeIs('products-recycle.index')" 
+                    >
+                        <i class="fa-solid fa-circle-user"></i>
+                        Reciclagem de Productos
+                    </x-dashboard.link-nav>
+                    <x-dashboard.link-nav 
                         href="{{ route('stock-movements.index') }}"
                         :active="request()->routeIs('stock-movements.index') || request()->routeIs('stock-movements.create') || request()->routeIs('stock-movements.edit')"
                     >

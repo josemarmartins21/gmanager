@@ -14,15 +14,13 @@ class ProductExcludedController extends Controller
     public function index()
     {
         try {
-        
-            return response()->json([
-                'products' => $this->productService->allTrashed(),
-            ]);
+
+            $products =  $this->productService->allTrashed();
+
+            return view('products-recycle.index', compact('products'));
 
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -32,15 +30,10 @@ class ProductExcludedController extends Controller
             
             $this->productService->restore($id);
 
-            return response()->json([
-                'message' => 'Producto restaurado com successo!',
-                'data' => Product::find($id),
-            ]);
+            return back()->with('success', 'Producto restaurado com successo!');
 
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+        } catch (\Exception $th) {
+            return back()->with('error', $th->getMessage());
         }
     }
 
@@ -66,13 +59,9 @@ class ProductExcludedController extends Controller
         try {
             $this->productService->permanentlyDelete($id);
 
-            return response()->json([
-                'message' => 'Producto excluido definitivamente com sucesso!',
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+            return back()->with('success', 'Producto eliminado definitivamente com successo!');
+        } catch (\Exception $th) {
+            return back()->with('error', $th->getMessage());
         }
     }
 
