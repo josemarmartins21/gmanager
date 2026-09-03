@@ -51,14 +51,10 @@ class ProductExcludedController extends Controller
 
             $this->productService->restoreAll();
 
-            return response()->json([
-                'message' => 'Productos restaurados com successo!',
-            ]);
+            return back()->with('success', 'Productos restaurados com sucesso!');
 
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+            return back()->with('error', $th->getMessage());
         }
     }
     
@@ -77,17 +73,14 @@ class ProductExcludedController extends Controller
     public function destroyAll()
     {
         try {
-           Gate::allowIf(fn (User $user) => $user->can('apagar todos os productos definitivamente'));
+            Gate::allowIf(fn (User $user) => $user->can('apagar todos os productos definitivamente'));
+           
             $this->productService->cleanAll();
 
-            return response()->json([
-                'message' => 'Lixeira esvasiada com sucesso!',
-            ]);
+            return back()->with('success', 'Lixeira esvasiada com sucesso!');
 
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+            return back()->with('error', $th->getMessage());
         }
     }
 

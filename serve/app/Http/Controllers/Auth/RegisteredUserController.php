@@ -59,8 +59,6 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
     
-            $this->permissionService->associate($user, $this->permissionService->allDefaultPermission());
-    
             if ($request->permissions) {
                 $this->permissionService->associate($user, $request->permissions);
             }

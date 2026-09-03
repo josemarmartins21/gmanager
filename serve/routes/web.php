@@ -21,8 +21,8 @@ Route::middleware('auth')->group(function() {
     Route::prefix('lixeira')->group(function() {
         Route::get('products', [ProductExcludedController::class, 'index'])->name('products-recycle.index');
         Route::post('products/{id}/restore', [ProductExcludedController::class, 'restore'])->name('products-recycle.restore');
-        Route::post('products/restore-all', [ProductExcludedController::class, 'restoreAll']);
-        Route::post('products/clean-all', [ProductExcludedController::class, 'destroyAll']);
+        Route::post('products/restore-all', [ProductExcludedController::class, 'restoreAll'])->name('products-recycle.restoreAll');
+        Route::post('products/clean-all', [ProductExcludedController::class, 'destroyAll'])->name('products-recycle.cleanAll');
         Route::delete('products/{id}/delete-permanently', [ProductExcludedController::class, 'destroy'])
         ->name('products-recycle.forceDelete');
     });

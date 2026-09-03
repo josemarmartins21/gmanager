@@ -8,7 +8,7 @@
 @section('content')
     <x-dashboard.alert />
     <section id="index-container">
-               <x-dashboard.content>
+        <x-dashboard.content>
             <x-dashboard.title-section>
                 Reciclagem de Productos
             </x-dashboard.title-section>
@@ -58,12 +58,19 @@
        </x-dashboard.content>
     </section>
 
-    <x-dashboard.float-btn 
-        bottom="2"
-        :rota="route('products.create')"
-        type="a"
-        class="bg-blue-600 bottom-8" 
-    >
-        <i class="fa-solid fa-plus"></i>
-    </x-dashboard.float-btn> 
+    <form action="{{ route('products-recycle.restoreAll') }}" method="post">
+        @csrf
+
+        <x-dashboard.float-btn class="bg-blue-600" onclick="return confirm('Recuperar productos')">
+            +
+        </x-dashboard.float-btn>
+    </form>
+    
+    <form action="{{ route('products-recycle.cleanAll') }}" method="post">
+        @csrf
+
+        <x-dashboard.float-btn :bottom="5" class="bg-red-600" onclick="return confirm('Tem a certeza que deseja esvaziar a reciclagem?')">
+            +
+        </x-dashboard.float-btn>
+    </form>
 @endsection 
