@@ -41,20 +41,21 @@ Route::middleware('auth')->group(function() {
         Route::get('items', [SaleItemController::class, 'index']);
     
     });
+    
     Route::get('/', HomeController::class)->name('home');
 });
 
 
 
 Route::prefix('admin')->middleware('auth')->group(function() {
-    Route::get('/dashboard', function () {
-        $users = User::select('name', 'email', 'id')->orderByDesc('created_at')->paginate(10);
+    Route::middleware('can:admin')->group(function () {
+        Route::get('/dashboard', function () {
+            $users = User::select('name', 'email', 'id')->orderByDesc('created_at')->paginate(10);
+        
+            return view('dashboard', compact('users'));
+        
+        })->middleware(['verified'])->name('dashboard');
     
-        return view('dashboard', compact('users'));
-    
-    })->middleware(['verified', 'can:admin-access'])->name('dashboard');
-    
-    Route::middleware('can:admin-access')->group(function () {
         Route::get('/profile/{user}', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile/{user}', [ProfileController::class, 'destroy'])->name('profile.destroy');

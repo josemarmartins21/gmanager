@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('products:read'));
+            Gate::allowIf(fn (User $user) => $user->can('visualizar productos'));
 
             $products = $this->productService->all();
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Gate::allowIf(fn (User $user) => $user->can('products:create'));
+        Gate::allowIf(fn (User $user) => $user->can('criar producto'));
 
         $categories = Category::all('name', 'id');
 
@@ -55,7 +55,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('products:create'));
+            Gate::allowIf(fn (User $user) => $user->can('criar producto'));
 
             $validated = $request->validated();
 
@@ -74,7 +74,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('products:read'));
+            Gate::allowIf(fn (User $user) => $user->can('visualizar producto'));
 
             return $this->productService->get($product->id);
 
@@ -90,7 +90,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        Gate::allowIf(fn (User $user) => $user->can('products:update'));
+        Gate::allowIf(fn (User $user) => $user->can('editar producto'));
 
         return view('products.edit', [
             'product' => $product,
@@ -104,7 +104,7 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('products:update'));
+            Gate::allowIf(fn (User $user) => $user->can('editar producto'));
 
             $validated = $request->validated();
 
@@ -123,7 +123,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('products:delete'));
+            Gate::allowIf(fn (User $user) => $user->can('apagar producto'));
 
             $this->productService->delete($product);
 

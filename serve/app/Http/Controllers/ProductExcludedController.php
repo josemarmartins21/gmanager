@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\User;
 use App\Services\products\contracts\ProductInterface;
+use Illuminate\Support\Facades\Gate;
+
 class ProductExcludedController extends Controller
 {
     public function __construct(
@@ -14,6 +16,8 @@ class ProductExcludedController extends Controller
     public function index()
     {
         try {
+
+            Gate::allowIf(fn (User $user) => $user->can('visualizar productos apagados'));
 
             $products =  $this->productService->allTrashed();
 
@@ -28,6 +32,8 @@ class ProductExcludedController extends Controller
     {
         try {
             
+            Gate::allowIf(fn (User $user) => $user->can('restaurar producto apagado'));
+
             $this->productService->restore($id);
 
             return back()->with('success', 'Producto restaurado com successo!');
@@ -41,6 +47,8 @@ class ProductExcludedController extends Controller
     {
         try {
             
+            Gate::allowIf(fn (User $user) => $user->can('restaurar productos apagados'));
+
             $this->productService->restoreAll();
 
             return response()->json([
@@ -57,6 +65,7 @@ class ProductExcludedController extends Controller
     public function destroy(string $id)
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('apagar producto definitivamente'));
             $this->productService->permanentlyDelete($id);
 
             return back()->with('success', 'Producto eliminado definitivamente com successo!');
@@ -68,7 +77,7 @@ class ProductExcludedController extends Controller
     public function destroyAll()
     {
         try {
-           
+           Gate::allowIf(fn (User $user) => $user->can('apagar todos os productos definitivamente'));
             $this->productService->cleanAll();
 
             return response()->json([

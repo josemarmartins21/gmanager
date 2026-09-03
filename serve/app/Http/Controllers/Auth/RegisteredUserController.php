@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
@@ -27,11 +24,16 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(): View | RedirectResponse
     {
-        $permissions = $this->permissionService->all();
-
-        return view('auth.register', compact('permissions'));
+        try {
+            $permissions = $this->permissionService->all();
+    
+            return view('auth.register', compact('permissions'));
+            
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -41,28 +43,33 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $permissionsName = Permission::all()->pluck('name')->toArray();
-
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required','confirmed',  Rules\Password::defaults()],
-            'permissions[]' => ['nullable', Rule::in($permissionsName), 'array']
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $this->permissionService->associate($user, $this->permissionService->allDefaultPermission());
-
-        if ($request->permissions) {
-            $this->permissionService->associate($user, $request->permissions);
+        try {
+            $permissionsName = Permission::all()->pluck('name')->toArray();
+    
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'password' => ['required','confirmed',  Rules\Password::defaults()],
+                'permissions[]' => ['nullable', Rule::in($permissionsName), 'array']
+            ]);
+    
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+    
+            $this->permissionService->associate($user, $this->permissionService->allDefaultPermission());
+    
+            if ($request->permissions) {
+                $this->permissionService->associate($user, $request->permissions);
+            }
+    
+            return redirect(route('dashboard', absolute: false));
+         
+        } catch (\Exception $th) {
+            return back()->with('error', $th->getMessage());
         }
-
-        return redirect(route('dashboard', absolute: false));
     }
 
 }
