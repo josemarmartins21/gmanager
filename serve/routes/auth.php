@@ -31,7 +31,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::middleware('can:admin-access')->group(function () {
+    Route::middleware('can:admin')->group(function () {
         Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 

@@ -35,26 +35,28 @@
                                     Ver Mais
                                 </x-dashboard.card-btn>
     
-                                <x-dashboard.action-btn-container>
-                                    <x-dashboard.action-btn 
-                                        type="link" 
-                                        class="bg-green-700"
-                                        href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                    >
-                                        <i class="fa-solid fa-edit text-xl"></i>
-                                    </x-dashboard.action-btn>
-    
-                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" 
-                                        method="POST" >
 
-                                        @csrf
-                                        @method('Delete')
-
-                                        <x-dashboard.action-btn onclick="return confirm('Tem a certeza que pretende eliminar?')" class="bg-red-700">
-                                            <i class="fa-solid fa-trash text-xl"></i>
+                                    <x-dashboard.action-btn-container>
+                                        <x-dashboard.action-btn 
+                                            type="link" 
+                                            class="bg-green-700"
+                                            href="{{ route('products.edit', ['product' => $product->id]) }}"
+                                        >
+                                            <i class="fa-solid fa-edit text-xl"></i>
                                         </x-dashboard.action-btn>
-                                    </form>
-                                </x-dashboard.action-btn-container>
+        
+                                        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" 
+                                            method="POST" >
+    
+                                            @csrf
+                                            @method('Delete')
+    
+                                            <x-dashboard.action-btn onclick="return confirm('Tem a certeza que pretende eliminar?')" class="bg-red-700">
+                                                <i class="fa-solid fa-trash text-xl"></i>
+                                            </x-dashboard.action-btn>
+                                        </form>
+                                    </x-dashboard.action-btn-container>
+ 
                             </x-slot:footer>
                         </x-dashboard.card>
                     @empty 

@@ -48,7 +48,7 @@ class PermissionService implements PermissionInterface
             $allDefaultPermission = [];
 
             foreach ($permissionsName as $permission) {
-                if (Str::contains($permission, 'read')) {
+                if (Str::contains($permission, 'visualizar')) {
                     $allDefaultPermission[] = $permission;
                 }
             }

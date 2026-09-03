@@ -15,57 +15,81 @@ class PermissionSeeder extends Seeder
     {
         Permission::factory()->createMany([
             [
-                'name' => 'sale:create',
+                'name' => 'criar venda',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sale:read',
+                'name' => 'visualizar venda',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sale:update',
+                'name' => 'visualizar vendas',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sale:delete',
+                'name' => 'excluir vendas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'editar vendas',
                 'guard_name' => 'web',
             ],
         ]);
     
         Permission::factory()->createMany([
             [
-                'name' => 'products:create',
+                'name' => 'criar producto',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:read',
+                'name' => 'visualizar productos',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:update',
+                'name' => 'editar producto',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:delete',
+                'name' => 'apagar producto',
                 'guard_name' => 'web',
-            ]
+            ],
+            [
+                'name' => 'apagar producto definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar producto apagado',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar productos apagados',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar todos os productos definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'visualizar productos apagados',
+                'guard_name' => 'web',
+            ],
         ]);
         
         Permission::factory()->createMany([
             [
-                'name' => 'category:create',
+                'name' => 'criar categoria',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'category:read',
+                'name' => 'visualizar categorias',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'category:update',
+                'name' => 'editar categoria',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'category:delete',
+                'name' => 'apagar categoria',
                 'guard_name' => 'web',
             ]
         ]);

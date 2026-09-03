@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             'price' => ['required', 'gte:20', 'decimal:0,2'],
             'box_price' => ['required', 'gte:500', 'decimal:0,2'],
             'current_stock' => ['nullable', 'integer', 'min:0', 'max:150'],
-            'min_stock' => ['nullable', 'integer', 'min:0', 'max:10'],
+            'min_stock' => ['nullable', 'integer', 'min:3', 'max:10'],
             'category_id' => ['required', 'exists:categories,id', 'integer', 'min:1'],
         ];
     }

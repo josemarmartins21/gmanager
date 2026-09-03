@@ -58,37 +58,25 @@
                         Productos
                     </x-dashboard.link-nav>
                     <x-dashboard.link-nav 
+                        href="{{ route('products-recycle.index') }}"
+                        :active="request()->routeIs('products-recycle.index')" 
+                    >
+                        <i class="fa-solid fa-circle-user"></i>
+                        Reciclagem de Productos
+                    </x-dashboard.link-nav>
+                    <x-dashboard.link-nav 
                         href="{{ route('stock-movements.index') }}"
                         :active="request()->routeIs('stock-movements.index') || request()->routeIs('stock-movements.create') || request()->routeIs('stock-movements.edit')"
                     >
                         <i class="fa-solid fa-people-group"></i> Movimentações de Estoque
                     </x-dashboard.link-nav>
-{{--                     @can ('super-admin') 
-                        <x-dashboard.link-nav 
-                        href="{{ route('users.index') }}"
-                        :active="request()->routeIs('users.index') || request()->routeIs('users.create')
-                        || request()->routeIs('users.edit') || request()->routeIs('users.show')
-                        "
-                        >
-                            <i class="fa-solid fa-users"></i> Gerir Usuários
-                    </x-dashboard.link-nav>
-                    @endcan
                     @can ('admin') 
                         <x-dashboard.link-nav 
-                        href="{{ route('users.index') }}"
-                        :active="request()->routeIs('users.index') || request()->routeIs('register')
-                        || request()->routeIs('users.edit') || request()->routeIs('users.show')
-                        "
+                            href="{{ route('dashboard') }}"
                         >
-                            <i class="fa-solid fa-user-gear"></i> Gerir Usuários
-                    </x-dashboard.link-nav>
-                    @endcan --}}
-                {{-- <x-dashboard.link-nav 
-                    href="{{ route('settings') }}"
-                    :active="request()->routeIs('settings')"
-                >
-                    <i class="fa-solid fa-gear"></i>  Definições
-                </x-dashboard.link-nav> --}}
+                            <i class="fa-solid fa-people-group"></i> Gerir usuários
+                        </x-dashboard.link-nav>
+                    @endcan
                 </x-dashboard.link-nav-container>
             </nav>
         

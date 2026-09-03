@@ -6,9 +6,9 @@
     <div class="flex gap-2 flex-wrap">
         @foreach($permissions as $permission)
             <div class="flex gap-2">
-                <x-input-label for="{{ $permission->name }}" :value="__(ucfirst(str_replace(':', ' ', $permission->name)))" />
+                <x-input-label for="{{ $permission->name }}" :value="__($permission->name)" />
 
-                <x-input-checkbox id="{{ $permission->name }}" :checked="Str::contains($permission->name, 'read')" :value="$permission->name" />
+                <x-input-checkbox id="{{ $permission->name }}" :checked="Str::contains($permission->name, 'visualizar')" :value="$permission->name" />
 
                 <x-input-error :messages="$errors->get('permissions[]')" class="mt-2" />   
             </div>
