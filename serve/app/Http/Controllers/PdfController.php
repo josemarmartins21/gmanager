@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Adapters\Pdfs\Contracts\PdfAdapter;
 use App\Factories\PdfAdapterFactory;
 use App\Factories\PdfRepositoryFactory;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class PdfController extends Controller
 {
@@ -14,7 +16,8 @@ class PdfController extends Controller
     public function download(string $pdfType)
     {
         try {
-
+            Gate::allowIf(fn(User $user) => $user->can('gerar PDFs'));
+            
             $repository = PdfRepositoryFactory::create('pdfs.' . $pdfType);
 
             $this->pdf = PdfAdapterFactory::create(
@@ -26,10 +29,7 @@ class PdfController extends Controller
             return $this->pdf->download();
 
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-
-            ], 500);
+            return back()->with('error', $e->getMessage());
         }
     }
 }

@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function() {
     });
     
     Route::prefix('pdfs')->group(function() {
-        Route::get('{typePdf}', [PdfController::class, 'download']);
+        Route::get('{typePdf}', [PdfController::class, 'download'])->name('pdfs.download');
     });
     
     Route::resource('sales', SaleController::class)->except(['update', 'edit']);

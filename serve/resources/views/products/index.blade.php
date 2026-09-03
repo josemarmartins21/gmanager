@@ -68,11 +68,29 @@
     </section>
 
     <x-dashboard.float-btn 
-        bottom="2"
-        :rota="route('products.create')"
-        type="a"
         class="bg-blue-600 bottom-8" 
+        onclick="abrirModal()"
     >
         <i class="fa-solid fa-plus"></i>
     </x-dashboard.float-btn> 
+
+    <x-dashboard.modal >
+        <x-dashboard.actions-container>
+            <x-dashboard.action-card>
+                icone
+
+                <x-slot:type>
+                    <a href="{{ route('products.create') }}">Novo Producto</a>
+                </x-slot:type>
+            </x-dashboard.action-card>
+            
+            <x-dashboard.action-card>
+                icone
+
+                <x-slot:type>
+                    <a href="{{ route('pdfs.download', ['typePdf' => 'products']) }}">Exportar</a>
+                </x-slot:type>
+            </x-dashboard.action-card>
+        </x-dashboard.actions-container>
+    </x-dashboard.modal>
 @endsection 
