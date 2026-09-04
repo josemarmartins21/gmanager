@@ -29,20 +29,26 @@
                             </x-slot:body>
     
                             <x-slot:footer>
-                                <form action="{{ route('products-recycle.restore', $product->id) }}" method="POST">
+                                <form action="{{ route('products-recycle.restore', $product->id) }}"  method="POST">
+                                    @csrf
+                                    
                                     <x-dashboard.card-btn
                                         class="ver-mais-producto
                                         bg-blue-600"
+                                        onclick="return confirm('Recuperar producto')"
                                     >
+
                                         Restaurar
                                     </x-dashboard.card-btn>
                                 </form>
                                 
                                 <form method="POST" action="{{ route('products-recycle.forceDelete', $product->id) }}">
+                                    @csrf
+
                                     <x-dashboard.card-btn title="Excluir definitvamente" 
                                     class="ver-mais-producto 
                                     bg-red-600"
-                                    onclick="return confirm('Tem a certeza que pretende eliminar?')"
+                                        onclick="return confirm('Tem a certeza que pretende eliminar definitivamente?')"
                                     >
                                      @method('Delete')
                                      Excluir def...
