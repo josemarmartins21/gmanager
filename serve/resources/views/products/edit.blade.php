@@ -35,7 +35,7 @@
                     Preço
                 </x-dashboard.form-label>
 
-                <x-dashboard.form-input type="text" value="{{ old('price', $product->price) }}" name="price" id="price" placeholder="Preço do producto *"></x-dashboard.form-input>
+                <x-dashboard.form-input type="number" value="{{ old('price', $product->price) }}" name="price" id="price" placeholder="Preço do producto *"></x-dashboard.form-input>
                 <x-input-error :messages="$errors->get('price')" class="mt-2" />
             </x-dashboard.input-container>
            
@@ -44,7 +44,7 @@
                     Preço da Caixa(Grade)
                 </x-dashboard.form-label>
 
-                <x-dashboard.form-input type="text" value="{{ old('box_price', $product->box_price) }}" name="box_price" id="box_price" placeholder="Preço da caixa(Grade) *" min="500"></x-dashboard.form-input>
+                <x-dashboard.form-input type="number" value="{{ old('box_price', $product->box_price) }}" name="box_price" id="box_price" placeholder="Preço da caixa(Grade) *" min="500"></x-dashboard.form-input>
 
                 <x-input-error :messages="$errors->get('box_price')" class="mt-2" />
             </x-dashboard.input-container>
@@ -54,7 +54,7 @@
                     Estoque Mínimo
                 </x-dashboard.form-label>
 
-                <x-dashboard.form-input type="text" value="{{ old('min_stock', $product->min_stock) }}" name="min_stock" id="min_stock" placeholder="Número mínimo de estoque *"></x-dashboard.form-input>
+                <x-dashboard.form-input type="number" value="{{ old('min_stock', $product->min_stock) }}" name="min_stock" id="min_stock" placeholder="Número mínimo de estoque *"></x-dashboard.form-input>
                 <x-input-error :messages="$errors->get('min_stock')" class="mt-2" />
             </x-dashboard.input-container>
 

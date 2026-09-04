@@ -77,7 +77,7 @@ class ProductExcludedController extends Controller
            
             $this->productService->cleanAll();
 
-            return back()->with('success', 'Lixeira esvasiada com sucesso!');
+            return back()->with('success', 'Lixeira esvaziada com sucesso!');
 
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());

@@ -73,6 +73,10 @@ class PermissionSeeder extends Seeder
                 'name' => 'visualizar productos apagados',
                 'guard_name' => 'web',
             ],
+            [
+                'name' => 'gerar PDFs',
+                'guard_name' => 'web',
+            ],
         ]);
         
         Permission::factory()->createMany([

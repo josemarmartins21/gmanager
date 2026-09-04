@@ -29,20 +29,26 @@
                             </x-slot:body>
     
                             <x-slot:footer>
-                                <form action="{{ route('products-recycle.restore', $product->id) }}" method="POST">
+                                <form action="{{ route('products-recycle.restore', $product->id) }}"  method="POST">
+                                    @csrf
+                                    
                                     <x-dashboard.card-btn
                                         class="ver-mais-producto
                                         bg-blue-600"
+                                        onclick="return confirm('Recuperar producto')"
                                     >
+
                                         Restaurar
                                     </x-dashboard.card-btn>
                                 </form>
                                 
                                 <form method="POST" action="{{ route('products-recycle.forceDelete', $product->id) }}">
+                                    @csrf
+
                                     <x-dashboard.card-btn title="Excluir definitvamente" 
                                     class="ver-mais-producto 
                                     bg-red-600"
-                                    onclick="return confirm('Tem a certeza que pretende eliminar?')"
+                                        onclick="return confirm('Tem a certeza que pretende eliminar definitivamente?')"
                                     >
                                      @method('Delete')
                                      Excluir def...
@@ -58,19 +64,42 @@
        </x-dashboard.content>
     </section>
 
-    <form action="{{ route('products-recycle.restoreAll') }}" method="post">
-        @csrf
+    <x-dashboard.float-btn 
+        class="bg-blue-600 bottom-8" 
+        onclick="abrirModal()"
+    >
+        <i class="fa-solid fa-plus"></i>
+    </x-dashboard.float-btn> 
 
-        <x-dashboard.float-btn class="bg-blue-600" onclick="return confirm('Recuperar productos')">
-            +
-        </x-dashboard.float-btn>
-    </form>
-    
-    <form action="{{ route('products-recycle.cleanAll') }}" method="post">
-        @csrf
+    <x-dashboard.modal >
+        <x-dashboard.actions-container>
+            <x-dashboard.action-card>
+                icone
 
-        <x-dashboard.float-btn :bottom="5" class="bg-red-600" onclick="return confirm('Tem a certeza que deseja esvaziar a reciclagem?')">
-            +
-        </x-dashboard.float-btn>
-    </form>
+                <x-slot:type>
+                    <form action="{{ route('products-recycle.restoreAll') }}" method="post">
+                        @csrf
+
+                        <button type="submit" class="text-blue-600 cursor-pointer" onclick="return confirm('Recuperar productos')">
+                            Restaurar Productos
+                        </button>
+                    </form>
+                </x-slot:type>
+            </x-dashboard.action-card>
+            
+            <x-dashboard.action-card>
+                icone
+
+                <x-slot:type>
+                    <form action="{{ route('products-recycle.cleanAll') }}" method="post">
+                        @csrf
+
+                        <button type="submit" class="text-red-600 cursor-pointer" onclick="return confirm('Tem a certeza que deseja esvaziar a reciclagem?')">
+                            Apagar Productos
+                        </button>
+                    </form>
+                </x-slot:type>
+            </x-dashboard.action-card>
+        </x-dashboard.actions-container>
+    </x-dashboard.modal>
 @endsection 
