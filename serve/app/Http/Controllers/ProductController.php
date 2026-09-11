@@ -6,13 +6,13 @@ use App\Http\Requests\Products\ProductRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\User;
 use App\Services\products\contracts\ProductInterface;
-use Illuminate\Support\Facades\Gate;
+use App\Trait\PermissionTrait;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    use PermissionTrait;
 
     public function __construct(
         private ProductInterface $productService,
@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('visualizar productos'));
+            $this->hasAuthorization('visualizar productos');
 
             $products = $this->productService->all();
 
@@ -42,11 +42,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Gate::allowIf(fn (User $user) => $user->can('criar producto'));
-
-        $categories = Category::all('name', 'id');
-
-        return view('products.create', compact('categories'));
+        try {
+            $this->hasAuthorization('criar producto');
+    
+            $categories = Category::all('name', 'id');
+    
+            return view('products.create', compact('categories'));
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -55,7 +59,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('criar producto'));
+            $this->hasAuthorization('criar producto');
 
             $validated = $request->validated();
 
@@ -74,7 +78,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('visualizar producto'));
+            $this->hasAuthorization('visualizar producto');
 
             return $this->productService->get($product->id);
 
@@ -90,12 +94,16 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        Gate::allowIf(fn (User $user) => $user->can('editar producto'));
+        try {
+            $this->hasAuthorization('editar producto');
 
-        return view('products.edit', [
-            'product' => $product,
-            'categories' => Category::all('name', 'id'),
-        ]);
+            return view('products.edit', [
+                'product' => $product,
+                'categories' => Category::all('name', 'id'),
+            ]);
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -104,7 +112,7 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('editar producto'));
+            $this->hasAuthorization('editar producto');
 
             $validated = $request->validated();
 
@@ -123,7 +131,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar producto'));
+            $this->hasAuthorization('apagar producto');
 
             $this->productService->delete($product);
 

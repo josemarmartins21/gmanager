@@ -4,9 +4,11 @@
             {{ __('Update Password') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
-        </p>
+        @if ($user->id === Auth::user()->id) 
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Ensure your account is using a long, random password to stay secure.') }}
+            </p>
+        @endif
     </header>
 
     <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">

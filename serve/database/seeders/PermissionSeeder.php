@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -19,19 +18,26 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'visualizar venda',
-                'guard_name' => 'web',
-            ],
-            [
                 'name' => 'visualizar vendas',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'excluir vendas',
+                'name' => 'excluir venda',
+                'guard_name' => 'web',
+            ],
+        ]);
+        
+        Permission::factory()->createMany([
+            [
+                'name' => 'visualizar movimentações de estoque',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'editar vendas',
+                'name' => 'actualizar estoque',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'editar movimentação de estoque',
                 'guard_name' => 'web',
             ],
         ]);
@@ -78,25 +84,5 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
         ]);
-        
-        Permission::factory()->createMany([
-            [
-                'name' => 'criar categoria',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'visualizar categorias',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'editar categoria',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'apagar categoria',
-                'guard_name' => 'web',
-            ]
-        ]);
-
     }
 }

@@ -71,13 +71,13 @@
         class="bg-blue-600 bottom-8" 
         onclick="abrirModal()"
     >
-        <i class="fa-solid fa-plus"></i>
+        <i class="fa-solid fa-plus text-2xl"></i>
     </x-dashboard.float-btn> 
 
     <x-dashboard.modal >
         <x-dashboard.actions-container>
             <x-dashboard.action-card>
-                icone
+                <i class="fa-solid fa-plus text-3xl"></i>
 
                 <x-slot:type>
                     <a href="{{ route('products.create') }}">Novo Producto</a>
@@ -85,7 +85,7 @@
             </x-dashboard.action-card>
             
             <x-dashboard.action-card>
-                icone
+                <i class="fa-solid fa-file-export text-3xl"></i>
 
                 <x-slot:type>
                     <a href="{{ route('pdfs.download', ['typePdf' => 'products']) }}">Exportar</a>

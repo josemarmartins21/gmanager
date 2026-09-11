@@ -38,7 +38,7 @@
                                         onclick="return confirm('Recuperar producto')"
                                     >
 
-                                        Restaurar
+                                        <i class="fa-solid fa-arrows-rotate"></i> Restaurar
                                     </x-dashboard.card-btn>
                                 </form>
                                 
@@ -49,9 +49,11 @@
                                     class="ver-mais-producto 
                                     bg-red-600"
                                         onclick="return confirm('Tem a certeza que pretende eliminar definitivamente?')"
+                                    title="Excluir definitivamente"    
                                     >
                                      @method('Delete')
-                                     Excluir def...
+
+                                     <i class="fa-solid fa-delete-left"></i> Excluir def...
                                     </x-dashboard.card-btn>
                                 </form>
                             </x-slot:footer>

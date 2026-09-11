@@ -23,8 +23,16 @@ class SaleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'note' => 'nullable|string|max:255|min:20',
-            'total_payed' => 'required|numeric|gte:20|decimal:0,2',
+            'note' => 'nullable|string|max:255|min:10',
+            'total_payed' => 'required|numeric|gte:0|decimal:0,2',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'total_payed' => 'total pago',
+            'note' => 'nota'
         ];
     }
 }

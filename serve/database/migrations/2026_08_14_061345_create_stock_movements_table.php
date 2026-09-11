@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('units_per_box')->nullable()->default(0);
             $table->integer('total_units');
             $table->text('note');
-            $table->enum('type', ['IN', 'lose', 'adjustment']);
+            $table->enum('type', ['Entrada', 'Perda', 'Reajuste']);
 
             $table->string('product_name');
             $table->decimal('box_price')->nullable();

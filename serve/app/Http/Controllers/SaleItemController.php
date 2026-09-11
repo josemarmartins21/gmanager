@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\User;
 use App\Services\Sales\Contracts\CartSessionInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SaleItemController extends Controller
 {
@@ -13,56 +14,20 @@ class SaleItemController extends Controller
     )
     {}
 
-    public function index()
+    public function store(Request $request)
     {
         try {
-            
-            $items = $this->saleItemService->getAllItems();
 
-            return response()->json([
-                'data' => $items,
-            ]);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
-        }
-    }
-
-    public function show(string $id)
-    {
-        try {
-            
-            $item = $this->saleItemService->getItem($id);
-
-            return response()->json([
-                'data' => $item
-            ]);
-
-        } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
-        }
-    }
-
-    public function store(Product $product, Request $request)
-    {
-        try {
+            Gate::allowIf(fn (User $user) => $user->can('criar venda'));
 
             $this->validate($request);
         
-            $this->saleItemService->add($product->id, $request->qty);
+            $this->saleItemService->add($request->product_id, $request->qty);
 
-            return response()->json([
-                'message' => 'Item adicionado com sucesso!',
-            ]);
+            return back()->with('success', 'Item adicionado com sucesso');
 
         } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
+            return back()->withInput()->with('error', $th->getMessage());
         }
     }
 
@@ -70,37 +35,32 @@ class SaleItemController extends Controller
     {
         try {
 
+            Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
+
             $request->validate([
                 'id' => 'required|numeric|integer|exists:products,id',
             ]);
 
             $this->saleItemService->removeItem($request->id);
 
-            return response()->json([
-                'message' => 'Item excluido com sucesso',
-            ]);
+            return back()->with('success', 'Item removido com sucesso');
 
         } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
+            return back()->with('error', $th->getMessage());
         }
     }
 
     public function removeAll()
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
 
             $this->saleItemService->flushAll();
 
-            return response()->json([
-                'message' => 'Items excluidos com sucesso',
-            ]);
+            return back()->withInput()->with('success', 'Carrinho limpo com sucesso');
 
         } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
+            return back()->withInput()->with('error', $th->getMessage());
         }
     }
 
@@ -108,6 +68,10 @@ class SaleItemController extends Controller
     {
         $request->validate([
             'qty' => 'required|min:1|max:100|integer',
+            'product_id' => 'required|numeric|integer|exists:products,id',
+        ], [], [
+            'qty' => 'quantidade',
+            'product_id' => 'produto',
         ]);
     }
 

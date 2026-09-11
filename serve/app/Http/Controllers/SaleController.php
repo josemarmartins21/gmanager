@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Sales\SaleRequest;
+use App\Models\Product;
 use App\Models\Sale;
+use App\Models\User;
 use App\Services\Sales\Contracts\CartSessionInterface;
 use App\Services\Sales\Contracts\SaleInterface;
+use Illuminate\Support\Facades\Gate;
 
 class SaleController extends Controller
 {
@@ -20,17 +23,14 @@ class SaleController extends Controller
     public function index()
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('visualizar vendas'));
 
             $sales = $this->saleService->all();
 
-            return response()->json([
-                'data' => $sales
-            ]);
+            return view('sales.index', compact('sales'));
 
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
+            return back()->with('error', $th->getMessage());
         }
     }
 
@@ -39,7 +39,11 @@ class SaleController extends Controller
      */
     public function create()
     {
-    
+        Gate::allowIf(fn (User $user) => $user->can('criar venda'));
+
+        $products = Product::all('name', 'id', 'price');
+
+        return view('sales.create', compact('products'));
     }
 
     /**
@@ -48,6 +52,7 @@ class SaleController extends Controller
     public function store(SaleRequest $request)
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('criar venda'));
 
             $saleDetails = $request->only(['note', 'total_payed']);
             $saleItems = $this->cartService->getAllItems();
@@ -56,23 +61,11 @@ class SaleController extends Controller
 
             $this->cartService->flushAll();
 
-            return response()->json([
-                'message' => "Venda finalizada com sucesso!",
-            ]);
+            return redirect()->route('sales.index')->with('success', 'Venda realizada com sucesso!');
 
         } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ]);
+            return back()->withInput()->with('error', $th->getMessage());
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Sale $sale)
-    {
-        //
     }
 
     /**
@@ -81,16 +74,13 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         try {
+            Gate::allowIf(fn (User $user) => $user->can('excluir venda'));
             $this->saleService->delete($sale);
 
-            return response()->json([
-                'message' => 'Venda excluida com sucesso!'
-            ]);
+            return back()->with('success', 'Venda excluida com sucesso!');
 
         } catch (\Exception $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+            return back()->with('error', $th->getMessage());
         }
     }
 }

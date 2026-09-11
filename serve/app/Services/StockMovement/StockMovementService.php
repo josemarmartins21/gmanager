@@ -10,6 +10,7 @@ use App\Services\StockMovement\Contracts\StockMovementInterface;
 use App\Trait\QuantityValidationTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use ValueError;
@@ -28,6 +29,8 @@ class StockMovementService implements StockMovementInterface
                 'stock_movements.box_qty',
                 'stock_movements.type',
                 'stock_movements.box_price',
+                'stock_movements.id',
+                'stock_movements.created_at',
                 'users.name',
             ];
 
@@ -63,6 +66,11 @@ class StockMovementService implements StockMovementInterface
                     'product_name' => $product->name,
                     'product_id' => $product->id,
                     'box_price' => $data['box_price'],
+                    'user_id' => Auth::user()->id,
+                ]);
+
+                $product->update([
+                    'box_price' => $data['box_price'] ?? $product->box_price,
                 ]);
 
             });
@@ -73,7 +81,7 @@ class StockMovementService implements StockMovementInterface
         } catch (ModelNotFoundException) {
             throw new \Exception("Não encontrámos o produto solicitado.");
 
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
             throw new \Exception("Não foi possível guardar o movimento de stock. Por favor, tente novamente.");
 
         }
@@ -102,6 +110,10 @@ class StockMovementService implements StockMovementInterface
                     'box_price' => $data['box_price'],
                 ]);
 
+                $product->update([
+                    'box_price' => $data['box_price'] ?? $product->box_price,
+                ]);
+
                Log::debug('value', ['status' => $data['type']]);
             });
             
@@ -122,7 +134,7 @@ class StockMovementService implements StockMovementInterface
         try {
             $type = StockOperations::from($type)->value;
 
-            if ($type === 'IN') {
+            if ($type === 'Entrada') {
                 $product->increment('current_stock', $qty);
             } else {
                 $this->checkQuantity($product, $qty);

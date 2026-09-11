@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function() {
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('stock-movements', StockMovementController::class)->except(['destroy', 'show']);
+    Route::resource('stock-movements', StockMovementController::class)->except(['show']);
     
     Route::prefix('lixeira')->group(function() {
         Route::get('products', [ProductExcludedController::class, 'index'])->name('products-recycle.index');
@@ -35,9 +35,9 @@ Route::middleware('auth')->group(function() {
     
     Route::prefix('sale-items')->group(function() {
         Route::get('items/{id}', [SaleItemController::class, 'show']);
-        Route::post('items/{product}', [SaleItemController::class, 'store']);
-        Route::post('flush-all', [SaleItemController::class, 'removeAll']);
-        Route::post('flush', [SaleItemController::class, 'destroy']);
+        Route::post('items', [SaleItemController::class, 'store'])->name('sale-items.store');
+        Route::post('flush-all', [SaleItemController::class, 'removeAll'])->name('sale-items.removeAll');
+        Route::post('flush', [SaleItemController::class, 'destroy'])->name('sale-items.destroy');
         Route::get('items', [SaleItemController::class, 'index']);
     
     });

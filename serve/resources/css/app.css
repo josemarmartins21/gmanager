@@ -157,6 +157,7 @@
     div#principal-content {
         @apply  m-5  lg:m-[0px_35px_0px_35px];
     }
+    
     div#fast-checkout {
         @apply  m-5  lg:m-[40px_35px_0px_35px];
     }

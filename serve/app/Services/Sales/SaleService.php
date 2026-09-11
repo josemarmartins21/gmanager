@@ -10,6 +10,7 @@ use App\Services\Sales\Contracts\SaleInterface;
 use App\Trait\QuantityValidationTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SaleService implements SaleInterface
@@ -22,6 +23,7 @@ class SaleService implements SaleInterface
 
             $attributes = [
                 'sales.total', 
+                'sales.id', 
                 'sales.total_payed', 
                 'sales.status', 
                 'sales.created_at', 
@@ -70,7 +72,7 @@ class SaleService implements SaleInterface
                     'total_payed' => $totalPayed,
                     'note' => $saleDetails['note'] ?? null,
                     'status' => $totalPayed >= $total,
-                    /* 'user_id' => Auth::user()->id */
+                    'user_id' => Auth::user()->id,
                 ]);
 
                 foreach ($saleItems as $item) {
