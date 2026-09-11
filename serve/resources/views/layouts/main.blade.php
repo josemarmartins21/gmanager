@@ -19,7 +19,9 @@
 <body id="corpo">
     <header>
         <div id="logo">
-            <a href="{{ route('home') }}"><x-application-logo /></a>
+            <a href="{{ route('home') }}">
+                <x-application-logo />
+            </a>
             
             <div id="barra-divisao"></div>
 
