@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -15,60 +14,75 @@ class PermissionSeeder extends Seeder
     {
         Permission::factory()->createMany([
             [
-                'name' => 'sale:create',
+                'name' => 'criar venda',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sale:read',
+                'name' => 'visualizar vendas',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sale:update',
+                'name' => 'excluir venda',
+                'guard_name' => 'web',
+            ],
+        ]);
+        
+        Permission::factory()->createMany([
+            [
+                'name' => 'visualizar movimentações de estoque',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'sale:delete',
+                'name' => 'actualizar estoque',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'editar movimentação de estoque',
                 'guard_name' => 'web',
             ],
         ]);
     
         Permission::factory()->createMany([
             [
-                'name' => 'products:create',
+                'name' => 'criar producto',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:read',
+                'name' => 'visualizar productos',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:update',
+                'name' => 'editar producto',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'products:delete',
+                'name' => 'apagar producto',
                 'guard_name' => 'web',
-            ]
+            ],
+            [
+                'name' => 'apagar producto definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar producto apagado',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar productos apagados',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar todos os productos definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'visualizar productos apagados',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'gerar PDFs',
+                'guard_name' => 'web',
+            ],
         ]);
-        
-        Permission::factory()->createMany([
-            [
-                'name' => 'category:create',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'category:read',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'category:update',
-                'guard_name' => 'web',
-            ],
-            [
-                'name' => 'category:delete',
-                'guard_name' => 'web',
-            ]
-        ]);
-
     }
 }

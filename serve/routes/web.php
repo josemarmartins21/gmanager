@@ -16,44 +16,46 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function() {
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('stock-movements', StockMovementController::class)->except(['destroy', 'show']);
+    Route::resource('stock-movements', StockMovementController::class)->except(['show']);
     
     Route::prefix('lixeira')->group(function() {
-        Route::get('products', [ProductExcludedController::class, 'index']);
-        Route::post('products/{id}/restore', [ProductExcludedController::class, 'restore']);
-        Route::post('products/restore-all', [ProductExcludedController::class, 'restoreAll']);
-        Route::post('products/clean-all', [ProductExcludedController::class, 'destroyAll']);
-        Route::delete('products/{id}/delete-permanently', [ProductExcludedController::class, 'destroy']);
+        Route::get('products', [ProductExcludedController::class, 'index'])->name('products-recycle.index');
+        Route::post('products/{id}/restore', [ProductExcludedController::class, 'restore'])->name('products-recycle.restore');
+        Route::post('products/restore-all', [ProductExcludedController::class, 'restoreAll'])->name('products-recycle.restoreAll');
+        Route::post('products/clean-all', [ProductExcludedController::class, 'destroyAll'])->name('products-recycle.cleanAll');
+        Route::delete('products/{id}/delete-permanently', [ProductExcludedController::class, 'destroy'])
+        ->name('products-recycle.forceDelete');
     });
     
     Route::prefix('pdfs')->group(function() {
-        Route::get('{typePdf}', [PdfController::class, 'download']);
+        Route::get('{typePdf}', [PdfController::class, 'download'])->name('pdfs.download');
     });
     
     Route::resource('sales', SaleController::class)->except(['update', 'edit']);
     
     Route::prefix('sale-items')->group(function() {
         Route::get('items/{id}', [SaleItemController::class, 'show']);
-        Route::post('items/{product}', [SaleItemController::class, 'store']);
-        Route::post('flush-all', [SaleItemController::class, 'removeAll']);
-        Route::post('flush', [SaleItemController::class, 'destroy']);
+        Route::post('items', [SaleItemController::class, 'store'])->name('sale-items.store');
+        Route::post('flush-all', [SaleItemController::class, 'removeAll'])->name('sale-items.removeAll');
+        Route::post('flush', [SaleItemController::class, 'destroy'])->name('sale-items.destroy');
         Route::get('items', [SaleItemController::class, 'index']);
     
     });
+    
     Route::get('/', HomeController::class)->name('home');
 });
 
 
 
 Route::prefix('admin')->middleware('auth')->group(function() {
-    Route::get('/dashboard', function () {
-        $users = User::select('name', 'email', 'id')->orderByDesc('created_at')->paginate(10);
+    Route::middleware('can:admin')->group(function () {
+        Route::get('/dashboard', function () {
+            $users = User::select('name', 'email', 'id')->orderByDesc('created_at')->paginate(10);
+        
+            return view('dashboard', compact('users'));
+        
+        })->middleware(['verified'])->name('dashboard');
     
-        return view('dashboard', compact('users'));
-    
-    })->middleware(['verified', 'can:admin-access'])->name('dashboard');
-    
-    Route::middleware('can:admin-access')->group(function () {
         Route::get('/profile/{user}', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile/{user}', [ProfileController::class, 'destroy'])->name('profile.destroy');

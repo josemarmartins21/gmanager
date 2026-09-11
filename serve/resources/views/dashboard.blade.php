@@ -34,8 +34,8 @@
                     <div class="mt-[25px]"></div>
                     {{ $users->links() }}
                 </div>
-                <x-app.float-button href="{{ route('register') }}">
-                    X
+                <x-app.float-button class="bg-blue-600 bottom-8"  href="{{ route('register') }}">
+                    <i class="fa-solid fa-plus text-2xl"></i>
                 </x-app.float-button>
             </div>
         </div>

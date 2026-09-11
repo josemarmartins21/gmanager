@@ -35,26 +35,28 @@
                                     Ver Mais
                                 </x-dashboard.card-btn>
     
-                                <x-dashboard.action-btn-container>
-                                    <x-dashboard.action-btn 
-                                        type="link" 
-                                        class="bg-green-700"
-                                        href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                    >
-                                        <i class="fa-solid fa-edit text-xl"></i>
-                                    </x-dashboard.action-btn>
-    
-                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" 
-                                        method="POST" >
 
-                                        @csrf
-                                        @method('Delete')
-
-                                        <x-dashboard.action-btn onclick="return confirm('Tem a certeza que pretende eliminar?')" class="bg-red-700">
-                                            <i class="fa-solid fa-trash text-xl"></i>
+                                    <x-dashboard.action-btn-container>
+                                        <x-dashboard.action-btn 
+                                            type="link" 
+                                            class="bg-green-700"
+                                            href="{{ route('products.edit', ['product' => $product->id]) }}"
+                                        >
+                                            <i class="fa-solid fa-edit text-xl"></i>
                                         </x-dashboard.action-btn>
-                                    </form>
-                                </x-dashboard.action-btn-container>
+        
+                                        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" 
+                                            method="POST" >
+    
+                                            @csrf
+                                            @method('Delete')
+    
+                                            <x-dashboard.action-btn onclick="return confirm('Tem a certeza que pretende eliminar?')" class="bg-red-700">
+                                                <i class="fa-solid fa-trash text-xl"></i>
+                                            </x-dashboard.action-btn>
+                                        </form>
+                                    </x-dashboard.action-btn-container>
+ 
                             </x-slot:footer>
                         </x-dashboard.card>
                     @empty 
@@ -66,11 +68,29 @@
     </section>
 
     <x-dashboard.float-btn 
-        bottom="2"
-        :rota="route('products.create')"
-        type="a"
         class="bg-blue-600 bottom-8" 
+        onclick="abrirModal()"
     >
-        <i class="fa-solid fa-plus"></i>
+        <i class="fa-solid fa-plus text-2xl"></i>
     </x-dashboard.float-btn> 
+
+    <x-dashboard.modal >
+        <x-dashboard.actions-container>
+            <x-dashboard.action-card>
+                <i class="fa-solid fa-plus text-3xl"></i>
+
+                <x-slot:type>
+                    <a href="{{ route('products.create') }}">Novo Producto</a>
+                </x-slot:type>
+            </x-dashboard.action-card>
+            
+            <x-dashboard.action-card>
+                <i class="fa-solid fa-file-export text-3xl"></i>
+
+                <x-slot:type>
+                    <a href="{{ route('pdfs.download', ['typePdf' => 'products']) }}">Exportar</a>
+                </x-slot:type>
+            </x-dashboard.action-card>
+        </x-dashboard.actions-container>
+    </x-dashboard.modal>
 @endsection 

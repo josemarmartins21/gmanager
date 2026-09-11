@@ -6,13 +6,13 @@ use App\Http\Requests\Products\ProductRequest;
 use App\Http\Requests\Products\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\User;
 use App\Services\products\contracts\ProductInterface;
-use Illuminate\Support\Facades\Gate;
+use App\Trait\PermissionTrait;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    use PermissionTrait;
 
     public function __construct(
         private ProductInterface $productService,
@@ -26,7 +26,8 @@ class ProductController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('products:read') || $user->hasRole('admin'));
+            $this->hasAuthorization('visualizar productos');
+
             $products = $this->productService->all();
 
             return view('products.index', compact('products'));
@@ -41,10 +42,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
-        $categories = Category::all('name', 'id');
-
-        return view('products.create', compact('categories'));
+        try {
+            $this->hasAuthorization('criar producto');
+    
+            $categories = Category::all('name', 'id');
+    
+            return view('products.create', compact('categories'));
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -53,6 +59,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
+            $this->hasAuthorization('criar producto');
 
             $validated = $request->validated();
 
@@ -71,6 +78,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try {
+            $this->hasAuthorization('visualizar producto');
 
             return $this->productService->get($product->id);
 
@@ -86,7 +94,16 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        try {
+            $this->hasAuthorization('editar producto');
+
+            return view('products.edit', [
+                'product' => $product,
+                'categories' => Category::all('name', 'id'),
+            ]);
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -95,14 +112,16 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product)
     {
         try {
+            $this->hasAuthorization('editar producto');
+
             $validated = $request->validated();
 
             $this->productService->update($product, $validated);
 
+            return redirect()->back()->with('success', Str::ucwords($product->name) . ' actualizada(o) com sucesso!');
+
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 500);
+            return back()->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -112,17 +131,14 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-            
+            $this->hasAuthorization('apagar producto');
+
             $this->productService->delete($product);
 
-            return response()->json([
-                'message' => 'Producto excluido com sucesso!',
-            ]);
+            return redirect()->route('products.index')->with('success', Str::ucwords($product->name) . ' eliminada(o) com sucesso!');
 
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => $th->getMessage(),
-            ], 500);
+        } catch (\Exception $th) {
+            return back()->withInput()->with('error', $th->getMessage());
         }
     }
 }

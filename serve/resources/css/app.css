@@ -12,11 +12,11 @@
 
 :root {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    'Segoe UI Symbol', 'Noto Color Emoji';  
 
     --fundo-principal: #f3f2f2;
     --texto: #222222;
-    --destaque: #0D3973;
+    --destaque: #0E1C36;
     --fundo-card: #ffff;
     --card-sombras: 0 1px 3px #0000000f;
 
@@ -24,10 +24,11 @@
 
     --dark-fundo-principal: #0f0f0f;    /* Preto muito escuro */
     --dark-texto: #f0f0f0;               /* Branco/cinza claro */
-    --dark-destaque: #1a6dd4;            /* Azul mais brilhante */
+    --dark-destaque: #E36414;            /* Azul mais brilhante */
     --dark-fundo-card: #1e1e1e;          /* Cinza escuro para cards */
+    --dark-fundo-modal: #181616;          /* Cinza escuro para cards */
     --dark-card-sombras: 0 1px 3px #00000050;  /* Sombra mais forte */
-    --dark-blue-primary: #3b82f6;        /* Azul bem visível */
+    --dark-blue-primary: #0A81D1;        /* Azul bem visível */
 
     --font-name-app:  "Boldonse", system-ui;
 }
@@ -44,7 +45,7 @@
 
     /** === MODAL === */
     #modal, #modal-table {
-        @apply w-[90%] md:w-[50%] dark:bg-[var(--dark-fundo-card)] bg-white p-2.5 shadow-2xl rounded-lg z-20 p-5;
+        @apply w-[90%] md:w-[50%] dark:bg-[var(--dark-fundo-modal)] bg-white p-2.5 shadow-2xl rounded-lg z-20 p-5;
     }
 
     /** OVERLAY */
@@ -78,7 +79,7 @@
 
     /* ========== HEADER ================ */
     header {
-        @apply bg-[var(--destaque)] dark:bg-slate-800 p-1 sm:p-1 flex justify-between items-center;
+        @apply bg-[var(--destaque)] p-1 sm:p-1 flex justify-between items-center;
     }
 
     div#logo {
@@ -142,7 +143,7 @@
         @apply text-2xl font-bold mt-3  hover:underline;
     }
     div#logout-btn {
-        @apply text-[22px] text-[var(--destaque)] flex  items-center font-bold relative md:bottom-[3%]  pl-6 text-center gap-2.5; 
+        @apply text-[22px] flex  items-center font-bold relative md:bottom-[3%]  pl-6 text-center gap-2.5; 
     }
 
     div#logout-btn button {
@@ -156,6 +157,7 @@
     div#principal-content {
         @apply  m-5  lg:m-[0px_35px_0px_35px];
     }
+    
     div#fast-checkout {
         @apply  m-5  lg:m-[40px_35px_0px_35px];
     }

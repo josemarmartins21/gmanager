@@ -2,4 +2,6 @@
     <thead>{{ $thead }}</thead>
 
     <tbody>{{ $body }}</tbody>
+
+    {{ $slot }}
 </table>

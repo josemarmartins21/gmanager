@@ -19,7 +19,9 @@
 <body id="corpo">
     <header>
         <div id="logo">
-            <a href="{{ route('home') }}"><x-application-logo /></a>
+            <a href="{{ route('home') }}">
+                <x-application-logo />
+            </a>
             
             <div id="barra-divisao"></div>
 
@@ -47,48 +49,40 @@
                         href="{{ route('sales.index') }}"
                         :active="request()->routeIs('sales.index') || request()->routeIs('sales.create') || request()->routeIs('sales.edit')" 
                     >
-                        <i class="fa-solid fa-house-signal"></i>
+                        <i class="fa-solid fa-store"></i>
                         Vendas
                     </x-dashboard.link-nav>
+                    
                     <x-dashboard.link-nav 
                         href="{{ route('products.index') }}"
-                        :active="request()->routeIs('products.index') || request()->routeIs('products.create') || request()->routeIs('products.edit') || request()->routeIs('products.show') || request()->routeIs('join.contact')" 
+                        :active="request()->routeIs('products.index') || request()->routeIs('products.create') || request()->routeIs('products.edit') || request()->routeIs('products.show')" 
                     >
-                        <i class="fa-solid fa-circle-user"></i>
+                        <i class="fa-solid fa-industry"></i>
                         Productos
                     </x-dashboard.link-nav>
+                    
                     <x-dashboard.link-nav 
                         href="{{ route('stock-movements.index') }}"
                         :active="request()->routeIs('stock-movements.index') || request()->routeIs('stock-movements.create') || request()->routeIs('stock-movements.edit')"
                     >
-                        <i class="fa-solid fa-people-group"></i> Movimentações de Estoque
+                        <i class="fa-solid fa-arrow-trend-up"></i> Gestão de Estoque
                     </x-dashboard.link-nav>
-{{--                     @can ('super-admin') 
-                        <x-dashboard.link-nav 
-                        href="{{ route('users.index') }}"
-                        :active="request()->routeIs('users.index') || request()->routeIs('users.create')
-                        || request()->routeIs('users.edit') || request()->routeIs('users.show')
-                        "
-                        >
-                            <i class="fa-solid fa-users"></i> Gerir Usuários
-                    </x-dashboard.link-nav>
-                    @endcan
+
                     @can ('admin') 
                         <x-dashboard.link-nav 
-                        href="{{ route('users.index') }}"
-                        :active="request()->routeIs('users.index') || request()->routeIs('register')
-                        || request()->routeIs('users.edit') || request()->routeIs('users.show')
-                        "
+                            href="{{ route('dashboard') }}"
                         >
-                            <i class="fa-solid fa-user-gear"></i> Gerir Usuários
+                            <i class="fa-solid fa-people-group"></i> Gerir usuários
+                        </x-dashboard.link-nav>
+                    @endcan
+                    
+                    <x-dashboard.link-nav 
+                        href="{{ route('products-recycle.index') }}"
+                        :active="request()->routeIs('products-recycle.index')" 
+                    >
+                        <i class="fa-solid fa-trash"></i> Reciclagem de Productos
+                        
                     </x-dashboard.link-nav>
-                    @endcan --}}
-                {{-- <x-dashboard.link-nav 
-                    href="{{ route('settings') }}"
-                    :active="request()->routeIs('settings')"
-                >
-                    <i class="fa-solid fa-gear"></i>  Definições
-                </x-dashboard.link-nav> --}}
                 </x-dashboard.link-nav-container>
             </nav>
         
