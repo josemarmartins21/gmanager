@@ -76,18 +76,22 @@
     <x-dashboard.modal >
         <x-dashboard.actions-container>
             <x-dashboard.action-card>
-                <i class="fa-solid fa-plus text-3xl"></i>
-
                 <x-slot:type>
-                    <a href="{{ route('stock-movements.create') }}">Actualizar Estoque</a>
+                    <a  href="{{ route('stock-movements.create') }}"
+                    title="Nova Movimentação de Stock"
+                >
+                        <i class="fa-solid fa-plus text-3xl"></i>
+                    </a>
                 </x-slot:type>
             </x-dashboard.action-card>
             
             <x-dashboard.action-card>
-                <i class="fa-solid fa-file-export text-3xl"></i>
-
                 <x-slot:type>
-                    <a href="{{ route('pdfs.download', ['typePdf' => 'sales']) }}">Exportar</a>
+                    <a href="{{ route('pdfs.download', ['typePdf' => 'stock-movements']) }}"
+                        title="Exportar em PDF"    
+                    >
+                        <i class="fa-solid fa-file-pdf text-3xl"></i>
+                    </a>
                 </x-slot:type>
             </x-dashboard.action-card>
         </x-dashboard.actions-container>

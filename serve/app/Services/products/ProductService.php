@@ -17,18 +17,16 @@ class ProductService implements ProductInterface
         try {
 
             $attributes = [
-                'products.name',
-                'products.id',
-                'products.price',
-                'products.current_stock',
-                'products.box_price',
-                'categories.name as category_name',
-                'products.created_at',
+                'name',
+                'id',
+                'price',
+                'current_stock',
+                'min_stock',
+                'created_at',
             ];
             
             $product = Product::select($attributes)
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->orderByDesc('products.created_at')
+            ->orderByDesc('created_at')
             ->paginate(6);
 
             return $product;

@@ -23,7 +23,10 @@
                             <x-slot:body>
                                 <ul>
                                     <li class="text-3xl mb-1  text-zinc-100">{{ number_format($product->price, 2, ',', '.') }}Kz</li>
-                                    <li class="text-zinc-400">{{ $product->current_stock }} uni. </li>
+                                    <li @class([
+                                        'text-zinc-400' => !$product->current_stock < $product->min_stock,
+                                        'text-red-700' => $product->current_stock < $product->min_stock
+                                    ])>{{ $product->current_stock }} uni. </li>
                                 </ul>
                             </x-slot:body>
     
@@ -76,19 +79,23 @@
 
     <x-dashboard.modal >
         <x-dashboard.actions-container>
-            <x-dashboard.action-card>
-                <i class="fa-solid fa-plus text-3xl"></i>
-
+           <x-dashboard.action-card>
                 <x-slot:type>
-                    <a href="{{ route('products.create') }}">Novo Producto</a>
+                    <a  href="{{ route('products.create') }}"
+                    title="Novo Producto"
+                >
+                        <i class="fa-solid fa-plus text-3xl"></i>
+                    </a>
                 </x-slot:type>
             </x-dashboard.action-card>
             
             <x-dashboard.action-card>
-                <i class="fa-solid fa-file-export text-3xl"></i>
-
                 <x-slot:type>
-                    <a href="{{ route('pdfs.download', ['typePdf' => 'products']) }}">Exportar</a>
+                    <a href="{{ route('pdfs.download', ['typePdf' => 'products']) }}"
+                        title="Exportar em PDF"    
+                    >
+                        <i class="fa-solid fa-file-pdf text-3xl"></i>
+                    </a>
                 </x-slot:type>
             </x-dashboard.action-card>
         </x-dashboard.actions-container>

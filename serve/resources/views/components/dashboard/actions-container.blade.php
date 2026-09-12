@@ -3,7 +3,7 @@
         Ações Complementares
     </x-dashboard.title-section>
     
-    <div class="flex flex-row justify-evenly gap-2 items-start">
+    <div class="flex flex-row flex-wrap justify-evenly gap-2 items-start">
         {{ $slot }}
     </div>
 </div>

@@ -10,7 +10,7 @@
     <section id="index-container">
         <x-dashboard.content>
             <x-dashboard.title-section>
-                Reciclagem de Productos
+                Reciclagem
             </x-dashboard.title-section>
 
             <x-dashboard.cards-container>
@@ -70,34 +70,38 @@
         class="bg-blue-600 bottom-8" 
         onclick="abrirModal()"
     >
-        <i class="fa-solid fa-plus"></i>
+        <i class="fa-solid fa-plus text-2xl"></i>
     </x-dashboard.float-btn> 
 
     <x-dashboard.modal >
         <x-dashboard.actions-container>
             <x-dashboard.action-card>
-                icone
-
                 <x-slot:type>
                     <form action="{{ route('products-recycle.restoreAll') }}" method="post">
                         @csrf
 
-                        <button type="submit" class="text-blue-600 cursor-pointer" onclick="return confirm('Recuperar productos')">
-                            Restaurar Productos
+                        <button 
+                            type="submit" class="text-blue-600 cursor-pointer" 
+                            onclick="return confirm('Recuperar productos')"
+                            title="Restaurar Productos"
+                        >
+                            <i class="fa-solid fa-arrows-rotate text-3xl"></i>
                         </button>
                     </form>
                 </x-slot:type>
             </x-dashboard.action-card>
             
             <x-dashboard.action-card>
-                icone
-
                 <x-slot:type>
                     <form action="{{ route('products-recycle.cleanAll') }}" method="post">
                         @csrf
 
-                        <button type="submit" class="text-red-600 cursor-pointer" onclick="return confirm('Tem a certeza que deseja esvaziar a reciclagem?')">
-                            Apagar Productos
+                        <button 
+                            type="submit" 
+                            class="text-red-600 cursor-pointer" onclick="return confirm('Tem a certeza que deseja esvaziar a reciclagem?')"
+                            title="Excluir Todos os Productos"
+                        >
+                            <i class="fa-solid fa-delete-left text-3xl"></i> 
                         </button>
                     </form>
                 </x-slot:type>

@@ -25,6 +25,10 @@ class PermissionSeeder extends Seeder
                 'name' => 'excluir venda',
                 'guard_name' => 'web',
             ],
+            [
+                'name' => 'alterar status da venda',
+                'guard_name' => 'web',
+            ],
         ]);
         
         Permission::factory()->createMany([
