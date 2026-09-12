@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\User;
 use App\Services\permissions\contracts\PermissionInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PermissionService implements PermissionInterface
@@ -35,7 +36,9 @@ class PermissionService implements PermissionInterface
                 $user->givePermissionTo($permission);
             }
 
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            Log::error("Erro ao atribuir permissão: " . $e->getMessage());
+            
             throw new \Exception("Não foi possível atribuir a permissão. Por favor, tente novamente.");
         }
     }
