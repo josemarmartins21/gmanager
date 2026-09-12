@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
-use Illuminate\Http\Request;
+use App\Trait\PermissionTrait;
 
 class MarkSaleAsPaidController extends Controller
 {
+    use PermissionTrait;
+    
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Sale $sale, Request $request)
+    public function __invoke(Sale $sale)
     {
         try {
+            $this->hasAuthorization('alterar status da venda');
 
             $this->changeStatus($sale);
 
