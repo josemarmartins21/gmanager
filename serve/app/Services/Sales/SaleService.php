@@ -33,7 +33,7 @@ class SaleService implements SaleInterface
             return Sale::select($attributes)
             ->leftJoin('users', 'users.id', '=', 'sales.user_id')
             ->orderByDesc('sales.created_at')
-            ->paginate(8);
+            ->paginate(6);
             
         } catch (\Throwable) {
             throw new \Exception("Não foi possível carregar a lista de vendas. Por favor, tente novamente.");

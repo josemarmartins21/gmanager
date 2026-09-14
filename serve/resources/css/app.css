@@ -33,6 +33,10 @@
     --font-name-app:  "Boldonse", system-ui;
 }
 
+.brand {
+    font-variant: small-caps;
+}
+
 
 @layer {
     body {

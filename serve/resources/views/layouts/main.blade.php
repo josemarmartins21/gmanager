@@ -1,5 +1,6 @@
 @use('Illuminate\Support\Facades\Auth')
 @use('App\Helpers\DateHelper')
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -11,6 +12,10 @@
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])    
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -20,12 +25,12 @@
     <header>
         <div id="logo">
             <a href="{{ route('home') }}">
-                <x-application-logo />
+                <h1 class="text-5xl font-bold brand">GManager</h1>
             </a>
             
             <div id="barra-divisao"></div>
 
-            <h1 class="text-5xl font-bold">@yield('section')</h1>
+            <h1 class="text-4xl font-bold">@yield('section')</h1>
         </div>
 
         <div id="data-actual">
@@ -33,7 +38,7 @@
         </div>
 
         <div id="menu-container">
-            <span id="menu"><i class="fa-solid fa-bars text-xl"></i></span>
+            <span id="menu"><i class="fa-solid fa-bars text-3xl"></i></span>
         </div>
     </header>
     <main class="principal-container">
@@ -43,7 +48,7 @@
                     <x-dashboard.link-nav href="{{ route('home') }}"
                         :active="request()->routeIs('home')"
                     >
-                        <i class="fa-solid fa-house"></i> Home
+                        <i class="fa-solid fa-house"></i> Página Inicial
                     </x-dashboard.link-nav>
                     <x-dashboard.link-nav 
                         href="{{ route('sales.index') }}"
