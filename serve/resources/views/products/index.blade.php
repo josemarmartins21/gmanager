@@ -22,7 +22,7 @@
     
                             <x-slot:body>
                                 <ul>
-                                    <li class="text-3xl mb-1  text-zinc-100">{{ number_format($product->price, 2, ',', '.') }}Kz</li>
+                                    <li class="text-3xl mb-1  text-zinc-100"><x-dashboard.price-format :value="$product->price" /></li>
                                     <li @class([
                                         'text-zinc-400' => !$product->current_stock < $product->min_stock,
                                         'text-red-700' => $product->current_stock < $product->min_stock

@@ -25,7 +25,7 @@
                             @foreach (session('sale.cart') as $item)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-[var(--dark-fundo-card)]">
                                     <td>{{ $item['product_name'] }}</td>
-                                    <td>{{ $item['product_price'] }}</td>
+                                    <td>{{   number_format($item['product_price'], 2, ',', '.')}}Kz</td>
                                     <td>{{ $item['qty'] }}</td>
                                     <td>{{ number_format($item['qty'] * $item['product_price'], 2, ',', '.') }}Kz</td>
                                     <td class="flex justify-center">
@@ -128,7 +128,7 @@
                 <form action="{{ route('sale-items.removeAll') }}" method="POST">
                     @csrf
                     <x-dashboard.input-container>
-                        <button class="rounded-xl p-2  md:text-white bg-red-700 font-bold cursor-pointer active:scale-[0.98] w-full inline-block sm:inline"  type="submit">
+                        <button onclick="return confirm('Esvaziar carrinho')" class="rounded-xl p-2  md:text-white bg-red-700 font-bold cursor-pointer active:scale-[0.98] w-full inline-block sm:inline"  type="submit">
                             Limpar Carrinho
                         </button>
                     </x-dashboard.input-container>

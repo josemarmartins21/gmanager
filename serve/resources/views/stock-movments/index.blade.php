@@ -34,7 +34,7 @@
                                 <td>{{ $stockMovement->total_units }}</td>
                                 <td>{{ $stockMovement->box_qty }}</td>
                                 <td>{{ $stockMovement->type }}</td>
-                                <td>{{ $stockMovement->box_price }}</td>
+                                <td><x-dashboard.price-format :value="$stockMovement->box_price" /></td>
                                 <td> {{ $stockMovement->name }}<td>
                                 <td> {{ DateHelper::diffForHumans($stockMovement->created_at) }}<td>
 

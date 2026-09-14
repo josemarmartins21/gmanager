@@ -1,7 +1,7 @@
 @extends('layouts.main')  
 
-@section('title', 'Dashboard')
-@section('section', 'Dashboard')
+@section('title', 'Página Inicial')
+@section('section', 'Página Inicial')
 
 @section('content')
         <x-dashboard.content>

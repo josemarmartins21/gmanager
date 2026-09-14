@@ -26,8 +26,8 @@
                     <x-slot:body>
                         @foreach ($sales as $sale)
                             <tr class="hover:bg-gray-100 dark:hover:bg-[var(--dark-fundo-card)]">
-                                <td>{{ $sale->total }}</td>
-                                <td>{{ $sale->total_payed }}</td>
+                                <td><x-dashboard.price-format :value="$sale->total" /></td>
+                                <td><x-dashboard.price-format :value="$sale->total_payed" /></td>
                                 <td>{{ $sale->name }}</td>
                                 <td>{{ $sale->created_at->format('d/m/Y') }}</td>
 
