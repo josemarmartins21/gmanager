@@ -37,10 +37,16 @@
     font-variant: small-caps;
 }
 
+.bck {
+    background-image: url(../../public/wallpaper-gmanager/bck-4.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
 
 @layer {
     body {
-        @apply bg-zinc-200 transition   dark:text-white dark:bg-[var(--dark-fundo-principal)] text-[var(--texto)] dark:text-[var(--dark-texto)] h-screen font-[var(--montserrat)] lg:flex lg:flex-col;
+        @apply bg-zinc-200 transition dark:bg-[var(--dark-fundo-principal)]  dark:text-white text-[var(--texto)] dark:text-[var(--dark-texto)] h-screen font-[var(--montserrat)] lg:flex lg:flex-col;
     }
 
     #float-btn, #float-btn-buttom {
