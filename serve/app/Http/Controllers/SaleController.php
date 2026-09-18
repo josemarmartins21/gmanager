@@ -41,7 +41,7 @@ class SaleController extends Controller
     {
         Gate::allowIf(fn (User $user) => $user->can('criar venda'));
 
-        $products = Product::all('name', 'id', 'price');
+        $products = Product::all('name', 'id', 'current_stock');
 
         return view('sales.create', compact('products'));
     }

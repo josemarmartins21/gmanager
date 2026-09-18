@@ -94,7 +94,7 @@
                                 value="{{ $product->id }}" 
                                 {{ old('product_id') == $product->id ? 'selected' : '' }}
                             > 
-                                {{ $product->name }} - {{ number_format($product->price, 2, ',', '.') }}Kz
+                                {{ $product->name }} - {{ $product->current_stock }}
                             </option>
                         @endforeach
                     </x-dashboard.input-select>
