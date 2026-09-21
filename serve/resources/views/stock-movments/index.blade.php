@@ -70,7 +70,7 @@
         class="bg-blue-600 bottom-8" 
         onclick="abrirModal()"
     >
-        <i class="fa-solid fa-plus text-2xl"></i>
+        <i class="fa-solid fa-ellipsis text-2xl"></i>
     </x-dashboard.float-btn> 
 
     <x-dashboard.modal >
@@ -87,7 +87,7 @@
             
             <x-dashboard.action-card>
                 <x-slot:type>
-                    <a href="{{ route('pdfs.download', ['typePdf' => 'stock-movements']) }}"
+                    <a href="{{ route('pdfs.download', ['typePdf' => 'cantina-movimentacao-estoque']) }}"
                         title="Exportar em PDF"    
                     >
                         <i class="fa-solid fa-file-pdf text-3xl"></i>

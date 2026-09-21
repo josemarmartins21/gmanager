@@ -25,10 +25,10 @@ class PdfAdapterFactory
             };
 
         } catch (UnhandledMatchError) {
-            throw new \Exception("Erro ao processar o PDF 1");
+            throw new \Exception("Erro ao processar o PDF");
             
         } catch (\Throwable $e) {
-            throw new \Exception($e->getMessage());
+            throw new \Exception("Erro ao processar o PDF" . $e->getMessage());
         }
     }
 }

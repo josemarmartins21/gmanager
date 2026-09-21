@@ -23,6 +23,7 @@ class ProductService implements ProductInterface
                 'current_stock',
                 'min_stock',
                 'created_at',
+                'box_price',
             ];
             
             $product = Product::select($attributes)
