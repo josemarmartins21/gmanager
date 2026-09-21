@@ -2,11 +2,9 @@
 
 namespace App\Factories;
 
-
-
-use App\Services\products\ProductService;
 use App\Strategies\Contracts\PdfRepository;
 use App\Strategies\ProductPdfRepository;
+use App\Strategies\StockMovmentPdfRepository;
 use UnhandledMatchError;
 
 class PdfRepositoryFactory
@@ -19,7 +17,8 @@ class PdfRepositoryFactory
         try {
 
             return match ($pdfType) {
-                'pdfs.products' => new ProductPdfRepository(new ProductService()),
+                'pdfs.cantina-lista-produtos' => new ProductPdfRepository(),
+                'pdfs.cantina-movimentacao-estoque' => new StockMovmentPdfRepository(),
             };
 
         } catch (UnhandledMatchError) {

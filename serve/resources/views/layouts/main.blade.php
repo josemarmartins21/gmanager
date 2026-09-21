@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
-<body id="corpo" class="bck">
+<body id="corpo">
     <header>
         <div id="logo">
             <a href="{{ route('home') }}">
@@ -70,7 +70,7 @@
                         href="{{ route('stock-movements.index') }}"
                         :active="request()->routeIs('stock-movements.index') || request()->routeIs('stock-movements.create') || request()->routeIs('stock-movements.edit')"
                     >
-                        <i class="fa-solid fa-arrow-trend-up"></i> Gestão de Estoque
+                        <i class="fa-solid fa-arrow-trend-up"></i> Gerir Estoque
                     </x-dashboard.link-nav>
 
                     @can ('admin') 

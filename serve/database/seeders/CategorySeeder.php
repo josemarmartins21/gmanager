@@ -25,6 +25,9 @@ class CategorySeeder extends Seeder
                 'name' => 'Vinho',
             ], [
                 'name' => 'Cigarro'
+            ],
+            [
+                'name' => 'Outra'
             ]
         ]);
     }
