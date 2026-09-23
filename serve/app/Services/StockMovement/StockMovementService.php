@@ -151,4 +151,15 @@ class StockMovementService implements StockMovementInterface
             throw new \Exception("Não foi possível actualizar o stock. Por favor, tente novamente.");
         }
     }
+
+    public function delete(StockMovement $stockMovement)
+    {
+        try {
+            
+            $stockMovement->deleteOrFail();
+
+        } catch (\Throwable) {
+            throw new \Exception("Não foi possível eliminar o movimento de stock. Por favor, tente novamente.");
+        }
+    }
 }

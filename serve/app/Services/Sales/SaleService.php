@@ -119,8 +119,8 @@ class SaleService implements SaleInterface
 
                 $sale->delete();
             });
-        } catch (\Throwable) {
-            throw new \Exception("Não foi possível eliminar a venda. Por favor, tente novamente.");
+        } catch (\Throwable $e) {
+            throw new \Exception($e->getMessage() . "Não foi possível eliminar a venda. Por favor, tente novamente.");
         }
     }
     

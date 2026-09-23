@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\SaleObserver;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy(SaleObserver::class)]
 #[Fillable(['total', 'total_payed', 'status', 'note', 'user_id'])]
 class Sale extends Model
 {

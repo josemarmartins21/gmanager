@@ -112,6 +112,14 @@ class StockMovementController extends Controller
      */
     public function destroy(StockMovement $stockMovement)
     {
-        //
+        try {
+            
+            $this->stockMovement->delete($stockMovement);
+
+            return redirect(route('stock-movements.index'))->with('success', 'Movimento de stock eliminada com sucesso!');
+
+        } catch (\Exception $th) {
+            return back()->withInput()->with('error', $th->getMessage());
+        }
     }
 }

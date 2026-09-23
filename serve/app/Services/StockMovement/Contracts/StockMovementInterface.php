@@ -27,4 +27,11 @@ interface StockMovementInterface
      * @throws \Exception
      */
     public function all(): LengthAwarePaginator;
+    
+    
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    public function delete(StockMovement $stockMovement);
 }
