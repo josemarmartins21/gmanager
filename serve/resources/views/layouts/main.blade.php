@@ -62,7 +62,7 @@
                         href="{{ route('products.index') }}"
                         :active="request()->routeIs('products.index') || request()->routeIs('products.create') || request()->routeIs('products.edit') || request()->routeIs('products.show')" 
                     >
-                        <i class="fa-solid fa-industry"></i>
+                        <i class="fa-solid fa-bag-shopping"></i>
                         Productos
                     </x-dashboard.link-nav>
                     
