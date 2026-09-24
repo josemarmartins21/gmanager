@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use InvalidArgumentException;
 
 class PasswordResetLinkController extends Controller
 {
@@ -26,20 +28,46 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
+        try {
+            $request->validate([
+                'email' => ['required', 'email'],
+            ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+            $this->isAdmin($request->email);
+    
+            // We will send the password reset link to this user. Once we have attempted
+            // to send the link, we will examine the response then see the message we
+            // need to show to the user. Finally, we'll send out a proper response.
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+    
+            return $status == Password::RESET_LINK_SENT
+                        ? back()->with('status', __($status))
+                        : back()->withInput($request->only('email'))
+                            ->withErrors(['email' => __($status)]);
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+        } catch (InvalidArgumentException $th) {
+            return back()->with('error', $th->getMessage());
+        } catch (\Throwable $th) {
+            return back()->with('error', "Erro ao enviar email de redefinição de senha. Tente novamente");
+        }
+    }
+
+    public function isAdmin(string $email)
+    {
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            if (! $user->hasRole('admin')) {
+                throw new \InvalidArgumentException("Verifique o endereço de email informado e tente novamente.");
+            }
+
+            return;
+        }
+
+        throw new \InvalidArgumentException("Verifique o endereço de email informado e tente novamente.");
+        
+
     }
 }
