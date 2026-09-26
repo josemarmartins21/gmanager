@@ -1,4 +1,5 @@
 @extends('layouts.main')  
+@use('App\Models\Sale')
 
 @section('title', 'Página Inicial')
 @section('section', 'Página Inicial')
@@ -10,38 +11,41 @@
 
                 <x-dashboard.cards-overview>    
                     <x-dashboard.card-overview>
-                        <span>Total de Assinaturas</span>
-                        <h3 class="text-3xl"></h3>
-                        <p>Total de assinaturas activa</p>
+                        <p>Facturação do mês</p>
+                        <h3 class="md:text-3xl"><x-dashboard.price-format :value="$financial['revenue']"/></h3>
+                        <span class="text-zinc-400">{{ Sale::payedThisMonth(true)->count() }} vendas</span>
                     </x-dashboard.card-overview>
                     
                     <x-dashboard.card-overview>
-                        <span>Município Mais Activo</span>
-                            <h3 class="text-3xl">
-                                
-                            </h3>
                             <p>
-                                Total de clientes 
+                                Total recebido
                                 
                             </p>
+                            <h3 class="md:text-3xl">
+                                <x-dashboard.price-format :value="$financial['received']"/>
+                            </h3>
                         </x-dashboard.card-overview>
                         
                         <x-dashboard.card-overview>
-                            <span>Receita Total</span>
-                            <h3 class="text-3xl">Kz</h3>
-                            <p>Receita total do mês</p>
+                            <p>Valores por receber</p>
+                            <h3 class="md:text-3xl">
+                                <x-dashboard.price-format :value="$financial['pending']"/>
+                            </h3>    
+                            <span class="text-red-700">{{ Sale::payedThisMonth(false)->where('total', '<', 25000)->count() }} vendas pendentes</span>
                         </x-dashboard.card-overview>
                 </x-dashboard.cards-overview>
             </x-dashboard.overview>
         </x-dashboard.content>
 
         <x-dashboard.fast-checkout>
-            <x-dashboard.raking 
-                description="Top 3 Planos mais assinado"
-                title="Planos em alta"
-            >
+
                 
-            </x-dashboard.raking>
+    
+            <x-dashboard.raking 
+                description="Top 3 bebidas mais vendidas"
+                title="Bebidas em alta"
+                :items="$topProducts"
+            />
         </x-dashboard.fast-checkout>
     </section>
 @endsection

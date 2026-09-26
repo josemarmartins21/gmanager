@@ -160,10 +160,7 @@
     div#principal-content {
         @apply  m-5  lg:m-[0px_35px_0px_35px];
     }
-    
-    div#fast-checkout {
-        @apply  m-5  lg:m-[40px_35px_0px_35px];
-    }
+
 
     /** OVEVIEW */
     div#overview h2 {
@@ -219,9 +216,6 @@
         @apply bg-white rounded-lg dark:bg-[var(--dark-fundo-card)] shadow-[var(--card-sombras)] p-2;
     }
 
-    #header-raking {
-        @apply border-b-2 border-zinc-300 mb-2.5 p-2.5;
-    }
 
     div#header-raking p {
         @apply text-zinc-600 dark:text-zinc-300 pb-2.5 text-[14px]; 
