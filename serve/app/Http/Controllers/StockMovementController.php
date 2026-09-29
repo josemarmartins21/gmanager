@@ -73,41 +73,6 @@ class StockMovementController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(StockMovement $stockMovement)
-    {
-        try {
-            $this->hasAuthorization('editar movimentação de estoque');
-
-            $products = Product::all('id', 'name');
-            $allowedOperations = StockOperations::cases();
-
-        return view('stock-movments.edit', compact('stockMovement', 'products', 'allowedOperations'));
-        } catch (\Throwable $th) {
-            return back()->with('error', $th->getMessage());
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(StockMovement $stockMovement, StockMovementRequest $request)
-    {
-        try {
-
-            $this->hasAuthorization('editar movimentação de estoque');
-
-            $this->stockMovement->update($stockMovement, $request->validated());
-
-            return redirect(route('stock-movements.index'));
-            
-        } catch (\Exception $th) {
-            return back()->withInput()->with('error', $th->getMessage());
-        }
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(StockMovement $stockMovement)

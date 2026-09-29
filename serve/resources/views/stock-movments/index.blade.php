@@ -17,37 +17,34 @@
                     <x-slot:thead>
                         <tr>
                             <th>Descrição</th>
+                            <th>Tipo de Mov.</th>
                             <th>Total Uni.</th>
                             <th>Nª de Caixas</th>
-                            <th>Tipo de Mov.</th>
                             <th>Preço da Caixa</th>
                             <th>Responsável</th>
-                            <th>Data</th>
+                            <th colspan="3">Data</th>
                             <th>Ações</th>
                         </tr>
                     </x-slot:thead>
 
                     <x-slot:body>
                         @foreach ($stockMovements as $stockMovement)
-                            <tr class="hover:bg-gray-100 dark:hover:bg-[var(--dark-fundo-card)]">
+                            <tr>
                                 <td>{{ $stockMovement->product_name }}</td>
+                                <td @class([
+                                    'font-bold' => true,
+                                    'text-yellow-700' => strtolower($stockMovement->type) == 'reajuste', 
+                                    'text-red-700' => strtolower($stockMovement->type) == 'perda',
+                                    'text-green-700' => strtolower($stockMovement->type) == 'entrada',
+                                ])>{{ $stockMovement->type }}</td>
                                 <td>{{ $stockMovement->total_units }}</td>
                                 <td>{{ $stockMovement->box_qty }}</td>
-                                <td>{{ $stockMovement->type }}</td>
                                 <td><x-dashboard.price-format :value="$stockMovement->box_price" /></td>
                                 <td> {{ $stockMovement->name }}<td>
-                                <td> {{ DateHelper::diffForHumans($stockMovement->created_at) }}<td>
+                                <td> {{ $stockMovement->created_at->format('d/m/Y') }}<td>
 
-                                <td class="flex justify-between">
-                                    <x-dashboard.action-btn 
-                                        type="link" 
-                                        class="bg-green-700"
-                                        href="{{ route('stock-movements.edit', $stockMovement->id) }}"
-                                    >
-                                        <i class="fa-solid fa-edit text-xl"></i>
-                                    </x-dashboard.action-btn>
-    
-                                    <form action="{{ route('stock-movements.destroy', $stockMovement->id) }}" method="POST" >
+                                <td>
+                                    <form action="{{ route('stock-movements.destroy', $stockMovement->id) }}" method="POST" class="iniline">
                                         @csrf
 
                                         @method('Delete')

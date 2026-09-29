@@ -24,7 +24,7 @@ class SaleItemController extends Controller
         
             $this->saleItemService->add($request->product_id, $request->qty);
 
-            return back()->with('success', 'Item adicionado com sucesso');
+            return back();
 
         } catch (\Exception $th) {
             return back()->withInput()->with('error', $th->getMessage());

@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use ValueError;
 
 class StockMovementService implements StockMovementInterface
@@ -84,48 +83,6 @@ class StockMovementService implements StockMovementInterface
         } catch (\Throwable $e) {
             throw new \Exception("Não foi possível guardar o movimento de stock. Por favor, tente novamente.");
 
-        }
-    }
-
-    public function update(StockMovement $stockMovement, $data = []): void
-    {
-        try {
-
-            DB::transaction(function() use ($stockMovement, $data) {
-                $product = Product::query()
-                ->lockForUpdate()
-                ->findOrFail($data['product_id']);
-
-                $qty = $data['box_qty'] ? $data['box_qty'] * $data['units_per_box'] : $data['total_units'];
-                $this->updateStock($data['type'], $product, $qty);
-
-                $stockMovement->update([
-                    'type' => $data['type'],
-                    'box_qty' => $data['box_qty'] ?? 0,
-                    'units_per_box' => $data['units_per_box'] ?? 0,
-                    'note' => $data['note'],
-                    'total_units' => $qty,
-                    'product_name' => $product->name,
-                    'product_id' => $product->id,
-                    'box_price' => $data['box_price'],
-                ]);
-
-                $product->update([
-                    'box_price' => $data['box_price'] ?? $product->box_price,
-                ]);
-
-               Log::debug('value', ['status' => $data['type']]);
-            });
-            
-        } catch (ModelNotFoundException) {
-            throw new \Exception("Não encontrámos o produto solicitado.");
-
-        } 
-        catch (InsufficientStockException $th) {
-            throw new \Exception($th->getMessage());
-        }
-        catch (\Throwable) {
-            throw new \Exception("Não foi possível actualizar o movimento de stock. Por favor, tente novamente.");
         }
     }
 

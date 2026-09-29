@@ -39,7 +39,7 @@
 
 @layer {
     body {
-        @apply bg-zinc-200 transition dark:bg-[var(--dark-fundo-principal)]  dark:text-white text-[var(--texto)] dark:text-[var(--dark-texto)] h-screen font-[var(--montserrat)] lg:flex lg:flex-col bg-cover bg-center bg-fixed bg-[url('../../public/wallpaper-gmanager/bck-4.jpg')];
+        @apply bg-zinc-200 transition dark:bg-[var(--dark-fundo-principal)]  dark:text-white text-[var(--texto)] dark:text-[var(--dark-texto)] h-screen font-[var(--montserrat)] lg:flex lg:flex-col bg-cover bg-no-repeat bg-fixed md:bg-[url('../../public/wallpaper-gmanager/bck-1.jpg')];
     }
 
     #float-btn, #float-btn-buttom {
