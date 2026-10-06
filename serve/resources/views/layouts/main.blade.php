@@ -82,10 +82,12 @@
                     @endcan
                     
                     <x-dashboard.link-nav 
-                        href="{{ route('products-recycle.index') }}"
-                        :active="request()->routeIs('products-recycle.index')" 
+                        href="{{ route('recycle') }}"
+                        :active="request()->routeIs('recycle') || 
+                        request()->routeIs('sales-recycle.index') || 
+                        request()->routeIs('products-recycle.index') " 
                     >
-                        <i class="fa-solid fa-trash"></i> Reciclagem de Productos
+                        <i class="fa-solid fa-trash"></i> Reciclagem 
                         
                     </x-dashboard.link-nav>
                 </x-dashboard.link-nav-container>

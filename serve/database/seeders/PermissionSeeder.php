@@ -29,6 +29,30 @@ class PermissionSeeder extends Seeder
                 'name' => 'alterar status da venda',
                 'guard_name' => 'web',
             ],
+            [
+                'name' => 'apagar venda',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar venda definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar venda apagada',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar vendas apagadas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar todas as vendas definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'visualizar vendas apagadas',
+                'guard_name' => 'web',
+            ]
         ]);
         
         Permission::factory()->createMany([

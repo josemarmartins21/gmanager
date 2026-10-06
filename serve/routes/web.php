@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductExcludedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SaleExcludedController;
 use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\StockMovementController;
 use App\Models\User;
@@ -22,12 +23,21 @@ Route::middleware('auth')->group(function() {
     Route::resource('stock-movements', StockMovementController::class)->except(['show', 'edit']);
     
     Route::prefix('lixeira')->group(function() {
+        Route::view('/', 'recycle')->name('recycle');
+
         Route::get('products', [ProductExcludedController::class, 'index'])->name('products-recycle.index');
         Route::post('products/{id}/restore', [ProductExcludedController::class, 'restore'])->name('products-recycle.restore');
         Route::post('products/restore-all', [ProductExcludedController::class, 'restoreAll'])->name('products-recycle.restoreAll');
         Route::post('products/clean-all', [ProductExcludedController::class, 'destroyAll'])->name('products-recycle.cleanAll');
         Route::delete('products/{id}/delete-permanently', [ProductExcludedController::class, 'destroy'])
         ->name('products-recycle.forceDelete');
+
+        Route::get('sales', [SaleExcludedController::class, 'index'])->name('sales-recycle.index');
+        Route::post('sales/{id}/restore', [SaleExcludedController::class, 'restore'])->name('sales-recycle.restore');
+        Route::post('sales/restore-all', [SaleExcludedController::class, 'restoreAll'])->name('sales-recycle.restoreAll');
+        Route::post('sales/clean-all', [SaleExcludedController::class, 'destroyAll'])->name('sales-recycle.cleanAll');
+        Route::delete('sales/{id}/delete-permanently', [SaleExcludedController::class, 'destroy'])
+        ->name('sales-recycle.forceDelete');
     });
     
     Route::prefix('pdfs')->group(function() {

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Strategies;
+namespace App\Strategies\Pdfs;
+
 
 use App\Models\StockMovement;
-use App\Strategies\Contracts\PdfRepository;
+use App\Strategies\Pdfs\Contracts\PdfRepository;
 
 class StockMovmentPdfRepository implements PdfRepository
 {

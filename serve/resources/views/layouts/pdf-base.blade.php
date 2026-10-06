@@ -30,7 +30,7 @@
 
   html, body {
       margin: 0;
-      padding: 0;
+      padding: 10px;
       background: #ffffff;
       color: #1a1a1a;
       font-family: "Times New Roman", Times, "DejaVu Serif", serif;

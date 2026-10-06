@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ObservedBy(SaleObserver::class)]
 #[Fillable(['total', 'total_payed', 'status', 'note', 'user_id'])]
 class Sale extends Model
 {
     /** @use HasFactory<\Database\Factories\SaleFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     #[Scope]
     protected function payedThisMonth(Builder $query, bool $status): void

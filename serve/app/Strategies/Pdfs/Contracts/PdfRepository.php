@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Strategies\Contracts;
+namespace App\Strategies\Pdfs\Contracts;
+
 
 use Illuminate\Database\Eloquent\Collection;
 
