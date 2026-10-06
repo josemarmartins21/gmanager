@@ -73,7 +73,7 @@
         class="bg-blue-600 bottom-8" 
         onclick="abrirModal()"
     >
-        <i class="fa-solid fa-plus text-2xl"></i>
+        <i class="fa-solid fa-ellipsis text-2xl"></i>
     </x-dashboard.float-btn> 
 
     <x-dashboard.modal >

@@ -37,16 +37,9 @@
     font-variant: small-caps;
 }
 
-.bck {
-    background-image: url(../../public/wallpaper-gmanager/bck-4.jpg);
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-}
-
 @layer {
     body {
-        @apply bg-zinc-200 transition dark:bg-[var(--dark-fundo-principal)]  dark:text-white text-[var(--texto)] dark:text-[var(--dark-texto)] h-screen font-[var(--montserrat)] lg:flex lg:flex-col;
+        @apply bg-zinc-200 transition dark:bg-[var(--dark-fundo-principal)]  dark:text-white text-[var(--texto)] dark:text-[var(--dark-texto)] h-screen font-[var(--montserrat)] lg:flex lg:flex-col bg-cover bg-no-repeat bg-fixed md:bg-[url('../../public/wallpaper-gmanager/bck-1.jpg')];
     }
 
     #float-btn, #float-btn-buttom {
@@ -167,10 +160,7 @@
     div#principal-content {
         @apply  m-5  lg:m-[0px_35px_0px_35px];
     }
-    
-    div#fast-checkout {
-        @apply  m-5  lg:m-[40px_35px_0px_35px];
-    }
+
 
     /** OVEVIEW */
     div#overview h2 {
@@ -226,9 +216,6 @@
         @apply bg-white rounded-lg dark:bg-[var(--dark-fundo-card)] shadow-[var(--card-sombras)] p-2;
     }
 
-    #header-raking {
-        @apply border-b-2 border-zinc-300 mb-2.5 p-2.5;
-    }
 
     div#header-raking p {
         @apply text-zinc-600 dark:text-zinc-300 pb-2.5 text-[14px]; 

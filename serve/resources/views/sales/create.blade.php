@@ -152,7 +152,7 @@
 
             <x-dashboard.input-container>
                 <x-dashboard.form-label for="name">
-                    Nota
+                    Nota (opcional)
                 </x-dashboard.form-label>
 
                 <x-dashboard.form-input-text type="text" name="note" id="note" placeholder="Nota">

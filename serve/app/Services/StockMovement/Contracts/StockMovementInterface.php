@@ -15,16 +15,15 @@ interface StockMovementInterface
     public function save($data = []): void;
 
     /**
-     * @param array $data  
-     * @param StockMovement $stockMovement
-     * @return void
-     * @throws \Exception
-     */
-    public function update(StockMovement $stockMovement, $data = []): void;
-
-    /**
      * @return LengthAwarePaginator
      * @throws \Exception
      */
     public function all(): LengthAwarePaginator;
+    
+    
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    public function delete(StockMovement $stockMovement);
 }

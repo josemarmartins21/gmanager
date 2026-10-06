@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function() {
 
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('stock-movements', StockMovementController::class)->except(['show']);
+    Route::resource('stock-movements', StockMovementController::class)->except(['show', 'edit']);
     
     Route::prefix('lixeira')->group(function() {
         Route::get('products', [ProductExcludedController::class, 'index'])->name('products-recycle.index');
