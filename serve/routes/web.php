@@ -12,6 +12,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleExcludedController;
 use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\RecycleController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,7 @@ Route::middleware('auth')->group(function() {
     Route::resource('stock-movements', StockMovementController::class)->except(['show', 'edit']);
     
     Route::prefix('lixeira')->group(function() {
-        Route::view('/', 'recycle')->name('recycle');
+        Route::get('/', RecycleController::class)->name('recycle');
 
         Route::get('products', [ProductExcludedController::class, 'index'])->name('products-recycle.index');
         Route::post('products/{id}/restore', [ProductExcludedController::class, 'restore'])->name('products-recycle.restore');

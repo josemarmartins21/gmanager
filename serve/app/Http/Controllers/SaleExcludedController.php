@@ -64,7 +64,7 @@ class SaleExcludedController extends Controller
     public function destroy(string $id)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar vendas definitivamente'));
+            Gate::allowIf(fn (User $user) => $user->can('apagar venda definitivamente'));
             $this->saleRecycle->permanentlyDelete($id);
 
             return back()->with('success', 'Venda eliminada definitivamente com successo!');

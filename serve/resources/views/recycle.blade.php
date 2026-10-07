@@ -20,8 +20,8 @@
                             </x-slot:header>
     
                             <x-slot:body>
-                                <p>
-                                    Reciclagem de productos
+                                <p class="text-zinc-400">
+                                    Exitem {{ $product_trashed_qty->count() }} productos excluidos
                                 </p>
                             </x-slot:body>
     
@@ -40,8 +40,8 @@
                             </x-slot:header>
     
                             <x-slot:body>
-                                <p>
-                                    Reciclagem de vendas
+                                <p class="text-zinc-400">
+                                    Exitem {{ $sale_trashed_qty->count() }} vendas excluidas
                                 </p>
                             </x-slot:body>
     

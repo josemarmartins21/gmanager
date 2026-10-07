@@ -3,10 +3,18 @@
 namespace App\Strategies\Recycles;
 
 use App\Exceptions\EmptyRecycleException;
+use App\Factories\StockMovmentFactory;
+use App\Models\Product;
 use App\Models\Sale;
+use App\Models\StockMovement;
+use App\Services\StockMovement\Contracts\StockMovementInterface;
+use App\Services\StockMovement\StockMovementService;
 use App\Strategies\Recycles\Contracts\RecycleInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SaleRecycle implements RecycleInterface   
 {
@@ -73,9 +81,15 @@ class SaleRecycle implements RecycleInterface
     {
         try {
 
-            $Sale = Sale::onlyTrashed()->findOrFail($id);
+            $stockMovment = StockMovmentFactory::create();
+            $sale = Sale::onlyTrashed()->findOrFail($id);
 
-            $Sale->forceDelete();
+            DB::transaction(function () use ($sale, $stockMovment): void {
+                $this->restoreStockAfterExclusion($sale, $stockMovment);
+
+                $sale->forceDelete();
+            });
+
             
         } catch (ModelNotFoundException) {
             throw new \Exception("Esta venda não se encontra na reciclagem.");
@@ -93,16 +107,26 @@ class SaleRecycle implements RecycleInterface
     public function cleanAll(): void
     {
         try {
-
             $this->hasExcluded();
+            
+            $stockMovment = StockMovmentFactory::create();
 
-            Sale::onlyTrashed()->forceDelete();
+            DB::transaction(function () use ($stockMovment): void {
+                $this->restoreStocksAfterExclusion($stockMovment);
+
+                Sale::onlyTrashed()->forceDelete();
+            });
+
 
         } catch (EmptyRecycleException $e) {
             throw new \Exception($e->getMessage());
             
-        } catch (\Throwable) {
-            throw new \Exception("Não foi passível eliminar todas as registas. Por favor, tente novamente.");
+        } catch (\Throwable $e) {
+            Log::error("Erro ao excluir uma venda", [
+                'message' => $e->getMessage(),
+            ]);
+
+            throw new \Exception("Não foi passível eliminar todas as vendas registas. Por favor, tente novamente.");
         }
     }
 
@@ -117,5 +141,46 @@ class SaleRecycle implements RecycleInterface
         if ($nbExcluded === 0) {
             throw new EmptyRecycleException("A reciclagem está vazia."); 
         }
+    }
+
+    private function restoreStockAfterExclusion(Sale $sale, StockMovementInterface $stockMovment)
+    {
+        foreach ($sale->saleItems as $saleItem) {
+            $product = Product::query()
+                ->lockForUpdate()
+                ->findOrFail($saleItem->product_id);
+                
+            $stockMovment->save([
+                'type' => 'Entrada',
+                'note' => 'Uma venda foi excluida definitivamente',
+                'total_units' => $saleItem->qty,
+                'product_name' => $product->name,
+                'product_id' => $product->id,
+                'user_id' => Auth::user()->id,    
+            ]);
+        }
+    }
+
+    private function restoreStocksAfterExclusion(StockMovementInterface $stockMovment): void
+    {
+        $sales = Sale::onlyTrashed()->get();
+
+        foreach ($sales as $sale) {
+            foreach ($sale->saleItems as $saleItem) {
+                $product = Product::query()
+                ->lockForUpdate()
+                ->findOrFail($saleItem->product_id);
+                    
+                $stockMovment->save([
+                    'type' => 'Entrada',
+                    'note' => 'Uma venda foi excluida definitivamente',
+                    'total_units' => $saleItem->qty,
+                    'product_name' => $product->name,
+                    'product_id' => $product->id,
+                    'user_id' => Auth::user()->id,    
+                ]);
+            }
+        }
+
     }
 }
