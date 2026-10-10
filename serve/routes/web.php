@@ -8,11 +8,12 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductExcludedController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecycleController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleExcludedController;
 use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\StockMovementController;
-use App\Http\Controllers\RecycleController;
+use App\Http\Controllers\StockMovementExcludedController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,13 @@ Route::middleware('auth')->group(function() {
         Route::post('sales/clean-all', [SaleExcludedController::class, 'destroyAll'])->name('sales-recycle.cleanAll');
         Route::delete('sales/{id}/delete-permanently', [SaleExcludedController::class, 'destroy'])
         ->name('sales-recycle.forceDelete');
+        
+        Route::get('stock-movement', [StockMovementExcludedController::class, 'index'])->name('stock-movement-recycle.index');
+        Route::post('stock-movement/{id}/restore', [StockMovementExcludedController::class, 'restore'])->name('stock-movement-recycle.restore');
+        Route::post('stock-movement/restore-all', [StockMovementExcludedController::class, 'restoreAll'])->name('stock-movement-recycle.restoreAll');
+        Route::post('stock-movement/clean-all', [StockMovementExcludedController::class, 'destroyAll'])->name('stock-movement-recycle.cleanAll');
+        Route::delete('stock-movement/{id}/delete-permanently', [StockMovementExcludedController::class, 'destroy'])
+        ->name('stock-movement-recycle.forceDelete');
     });
     
     Route::prefix('pdfs')->group(function() {

@@ -68,6 +68,26 @@ class PermissionSeeder extends Seeder
                 'name' => 'editar movimentação de estoque',
                 'guard_name' => 'web',
             ],
+            [
+                'name' => 'visualizar movimentações de estoque apagadas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar movimentação de estoque apagada',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar movimentações de estoque apagadas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar movimentação de estoque definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar todas as movimentações de estoque definitivamente',
+                'guard_name' => 'web',
+            ],
         ]);
     
         Permission::factory()->createMany([

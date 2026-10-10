@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\StockMovement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,12 +14,32 @@ class HomeController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke()
     {
         $financial = self::financialSummary();
         $topProducts = self::topProducts();
+        $this->hasExcludedResources();
 
         return view('welcome', compact('financial', 'topProducts'));
+    }
+
+    public function hasExcludedResources(): void
+    {
+        $resources = [
+            'sale_trashed_qty' => Sale::trashedQty(),
+            'product_trashed_qty' => Product::trashedQty(),
+            'stock_movement_trashed_qty' => StockMovement::trashedQty(),
+        ];
+
+        $has = false;
+
+        foreach ($resources as $resource) {
+            if ($resource->count() > 0) {
+                $has = true;
+            }
+        }
+
+        session()->put('hasExcludedResources', $has);
     }
 
     private static function financialSummary(): array
@@ -56,6 +77,8 @@ class HomeController extends Controller
                 DB::raw('SUM(sale_items.qty) as total_sold')
             ])
             ->join('sale_items', 'products.id', '=', 'sale_items.product_id')
+            ->whereMonth('sale_items.created_at', now()->month)
+            ->whereYear('sale_items.created_at', now()->year)
             ->groupBy('products.id', 'products.name')
             ->orderByDesc('total_sold')
             ->limit($limit)
