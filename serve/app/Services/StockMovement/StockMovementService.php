@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use ValueError;
 
 class StockMovementService implements StockMovementInterface
@@ -53,18 +54,23 @@ class StockMovementService implements StockMovementInterface
                 ->lockForUpdate()
                 ->findOrFail($data['product_id']);
 
-                $qty = $data['box_qty'] ? $data['box_qty'] * $data['units_per_box'] : $data['total_units'];
+                $boxQty = array_key_exists('box_qty', $data) ? $data['box_qty'] : 0;
+                $unitsPerBox = array_key_exists('units_per_box', $data) ? $data['units_per_box'] : 0;
+                $totUnits = array_key_exists('total_units', $data) ? $data['total_units'] : 0;
+                $boxPrice = array_key_exists('box_price', $data) ? $data['box_price'] : 0;
+
+                $qty = $boxQty ? $boxQty * $unitsPerBox : $totUnits;
                 $this->updateStock($data['type'], $product, $qty);
 
                 StockMovement::create([
                     'type' => $data['type'],
-                    'box_qty' => $data['box_qty'] ?? 0,
-                    'units_per_box' => $data['units_per_box'] ?? 0,
+                    'box_qty' => $boxQty,
+                    'units_per_box' => $unitsPerBox,
                     'note' => $data['note'],
                     'total_units' => $qty,
                     'product_name' => $product->name,
                     'product_id' => $product->id,
-                    'box_price' => $data['box_price'],
+                    'box_price' => $boxPrice,
                     'user_id' => Auth::user()->id,
                 ]);
 
@@ -81,6 +87,10 @@ class StockMovementService implements StockMovementInterface
             throw new \Exception("Não encontrámos o produto solicitado.");
 
         } catch (\Throwable $e) {
+            Log::error("Erro ao excluir uma venda", [
+                'message' => $e->getMessage(),
+            ]);
+            
             throw new \Exception("Não foi possível guardar o movimento de stock. Por favor, tente novamente.");
 
         }

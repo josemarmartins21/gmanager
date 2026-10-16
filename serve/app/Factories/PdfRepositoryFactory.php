@@ -2,9 +2,9 @@
 
 namespace App\Factories;
 
-use App\Strategies\Contracts\PdfRepository;
-use App\Strategies\ProductPdfRepository;
-use App\Strategies\StockMovmentPdfRepository;
+use App\Strategies\Pdfs\Contracts\PdfRepository;
+use App\Strategies\Pdfs\ProductPdfRepository;
+use App\Strategies\Pdfs\StockMovmentPdfRepository;
 use UnhandledMatchError;
 
 class PdfRepositoryFactory

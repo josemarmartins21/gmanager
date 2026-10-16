@@ -4,14 +4,17 @@ namespace App\Services\Sales;
 
 use App\Exceptions\EmptyCartException;
 use App\Exceptions\InsufficientStockException;
+use App\Factories\StockMovmentFactory;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Services\Sales\Contracts\SaleInterface;
 use App\Trait\QuantityValidationTrait;
+use Database\Factories\StockMovementFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SaleService implements SaleInterface
 {
@@ -108,19 +111,15 @@ class SaleService implements SaleInterface
     public function delete(Sale $sale): void
     {
         try {
-            DB::transaction(function () use ($sale): void {
-                foreach ($sale->saleItems as $saleItem) {
-                    $product = Product::query()
-                        ->lockForUpdate()
-                        ->findOrFail($saleItem->product_id);
+            
+            $sale->delete();
 
-                    $product->increment('current_stock', $saleItem->qty);
-                }
-
-                $sale->delete();
-            });
         } catch (\Throwable $e) {
-            throw new \Exception($e->getMessage() . "Não foi possível eliminar a venda. Por favor, tente novamente.");
+            Log::error("Erro ao excluir uma venda", [
+                'message' => $e->getMessage(),
+            ]);
+
+            throw new \Exception("Não foi possível eliminar a venda. Por favor, tente novamente.");
         }
     }
     

@@ -29,6 +29,30 @@ class PermissionSeeder extends Seeder
                 'name' => 'alterar status da venda',
                 'guard_name' => 'web',
             ],
+            [
+                'name' => 'apagar venda',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar venda definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar venda apagada',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar vendas apagadas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar todas as vendas definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'visualizar vendas apagadas',
+                'guard_name' => 'web',
+            ]
         ]);
         
         Permission::factory()->createMany([
@@ -42,6 +66,26 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'editar movimentação de estoque',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'visualizar movimentações de estoque apagadas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar movimentação de estoque apagada',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'restaurar movimentações de estoque apagadas',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar movimentação de estoque definitivamente',
+                'guard_name' => 'web',
+            ],
+            [
+                'name' => 'apagar todas as movimentações de estoque definitivamente',
                 'guard_name' => 'web',
             ],
         ]);
