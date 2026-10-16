@@ -82,7 +82,7 @@
 
     /* ========== HEADER ================ */
     header {
-        @apply bg-[var(--destaque)] p-1 sm:p-1 flex justify-between items-center;
+        @apply bg-[var(--destaque)] p-2 sm:p-2.5 flex justify-between items-center sticky top-0 z-50 shadow-md;
     }
 
     div#logo {
@@ -109,7 +109,15 @@
     }
 
     #menu-container {
-        @apply lg:hidden;
+        @apply lg:hidden flex items-center pr-2;
+    }
+
+    #menu {
+        @apply flex items-center justify-center w-11 h-11 rounded-xl text-white bg-white/10 hover:bg-white/20 active:scale-95 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/40;
+    }
+
+    #menu i {
+        @apply transition-transform duration-300 text-2xl;
     }
     /* ====================================================== */
 
@@ -119,7 +127,8 @@
     }   
 
     section#side-bar {
-        @apply px-4 lg:sticky  z-10 fixed w-full top-[110px] dark:bg-[var(--dark-fundo-card)] h-[100%] bg-white  flex-col py-8 lg:gap-5 overflow-y-auto lg:justify-between;
+        @apply fixed top-0 bottom-0 left-0 z-40 w-[290px] sm:w-[320px] max-w-[85vw] h-full min-h-screen pt-20 sm:pt-24 pb-8 px-5 bg-white dark:bg-[var(--dark-fundo-card)] shadow-2xl shadow-black/30 dark:shadow-black/70 border-r border-zinc-200/80 dark:border-zinc-800/80 flex flex-col justify-between overflow-y-auto overscroll-contain transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+        lg:static lg:translate-x-0 lg:visible lg:opacity-100 lg:pointer-events-auto lg:z-auto lg:w-auto lg:max-w-none lg:min-h-0 lg:h-auto lg:pt-8 lg:pb-8 lg:px-4 lg:shadow-none lg:border-r-0 lg:sticky lg:top-0 lg:flex lg:gap-5 lg:justify-between;
     }
 
     div#link-container {
@@ -127,7 +136,7 @@
     }
 
     div#link-container a.link-nav {
-        @apply p-1.5  w-[100%] font-semibold rounded-lg text-xl;
+        @apply p-2.5 sm:p-2 w-[100%] font-semibold rounded-xl text-lg sm:text-xl transition-all duration-200 flex items-center gap-3 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 active:scale-[0.98];
     }
 
     .link-active {
@@ -146,11 +155,11 @@
         @apply text-2xl font-bold mt-3  hover:underline;
     }
     div#logout-btn {
-        @apply text-[22px] flex  items-center font-bold relative md:bottom-[3%]  pl-6 text-center gap-2.5; 
+        @apply text-[22px] flex items-center font-bold relative md:bottom-[3%] pl-4 sm:pl-6 text-center gap-2.5; 
     }
 
     div#logout-btn button {
-        @apply md:cursor-pointer;
+        @apply cursor-pointer hover:opacity-80 active:scale-95 transition-all duration-150;
     }
 
     /** CONTEUDO DE CADA PAGINA */

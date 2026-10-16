@@ -40,11 +40,31 @@
         </div>
 
         <div id="menu-container">
-            <span id="menu"><i class="fa-solid fa-bars text-3xl"></i></span>
+            <button 
+                id="menu" 
+                type="button" 
+                aria-label="Abrir menu" 
+                aria-expanded="false" 
+                aria-controls="side-bar"
+            >
+                <i id="menu-icon" class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
+
+    {{-- Backdrop escurecido/desfocado para o menu mobile --}}
+    <div 
+        id="menu-backdrop" 
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-opacity duration-300 ease-out opacity-0 pointer-events-none lg:hidden" 
+        aria-hidden="true"
+    ></div>
+
     <main class="principal-container">
-        <section id="side-bar" class="hidden lg:flex">
+        <section 
+            id="side-bar" 
+            class="-translate-x-full invisible opacity-0 pointer-events-none lg:translate-x-0 lg:visible lg:opacity-100 lg:pointer-events-auto flex" 
+            aria-hidden="true"
+        >
             <nav>
                 <x-dashboard.link-nav-container>
                     <x-dashboard.link-nav href="{{ route('home') }}"

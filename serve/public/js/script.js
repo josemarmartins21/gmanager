@@ -5,9 +5,12 @@ var modalTable = document.getElementById('modal-table')
 var btnTheme = document.getElementById('btn-theme')
 var btnCloseModal = document.getElementById('close-modal-btn')
 
-overlay.addEventListener('click', abrirModal)
+if (overlay) {
+    overlay.addEventListener('click', abrirModal)
+}
 
 function abrirModal() {
+    if (!overlay || !modal) return
     var wantOpen = overlay.classList.contains('hidden')
     var o = overlay
     var m = modal
@@ -24,25 +27,28 @@ function abrirModal() {
 }
 
 function alternarClass(o) {
-    o.classList.toggle('hidden') 
+    if (o) o.classList.toggle('hidden') 
 }
 
 function setBoxPositionToOpen(o) {
     alternarClass(o)
-    o.classList.add('abrir') 
+    if (o) o.classList.add('abrir') 
 }
 
 // Persistência do tema
 const temasalvo = localStorage.getItem('tema');
 changeMode(temasalvo === 'escuro')
 
-btnTheme.addEventListener('click', () => {
-  var corpo = document.getElementById('corpo')
-  const isescuro = corpo.classList.toggle('dark');
+if (btnTheme) {
+    btnTheme.addEventListener('click', () => {
+        var corpo = document.getElementById('corpo')
+        if (!corpo) return;
+        const isescuro = corpo.classList.toggle('dark');
 
-  changeMode(isescuro);
-  localStorage.setItem('tema', isescuro ? 'escuro' : 'claro');
-}) // Dark Mode
+        changeMode(isescuro);
+        localStorage.setItem('tema', isescuro ? 'escuro' : 'claro');
+    }) // Dark Mode
+}
 
 function changeMode(tipo) {
     if (tipo == true) {
