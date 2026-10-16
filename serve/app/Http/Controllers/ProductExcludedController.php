@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Factories\RecycleFactory;
 use App\Models\User;
-use App\Services\products\contracts\ProductInterface;
+use App\Strategies\Recycles\Contracts\RecycleInterface;
 use Illuminate\Support\Facades\Gate;
 
 class ProductExcludedController extends Controller
 {
-    public function __construct(
-        private ProductInterface $productService,
-    )
-    {}
+    private RecycleInterface $productRecycle;
+
+    public function __construct()
+    {
+        $this->productRecycle = RecycleFactory::create('products');
+    }
     
     public function index()
     {
@@ -19,9 +22,9 @@ class ProductExcludedController extends Controller
 
             Gate::allowIf(fn (User $user) => $user->can('visualizar productos apagados'));
 
-            $products =  $this->productService->allTrashed();
+            $products =  $this->productRecycle->allTrashed();
 
-            return view('products-recycle.index', compact('products'));
+            return view('recycles.products-recycle', compact('products'));
 
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -34,7 +37,7 @@ class ProductExcludedController extends Controller
             
             Gate::allowIf(fn (User $user) => $user->can('restaurar producto apagado'));
 
-            $this->productService->restore($id);
+            $this->productRecycle->restore($id);
 
             return back()->with('success', 'Producto restaurado com successo!');
 
@@ -49,7 +52,7 @@ class ProductExcludedController extends Controller
             
             Gate::allowIf(fn (User $user) => $user->can('restaurar productos apagados'));
 
-            $this->productService->restoreAll();
+            $this-> productRecycle->restoreAll();
 
             return back()->with('success', 'Productos restaurados com sucesso!');
 
@@ -62,7 +65,7 @@ class ProductExcludedController extends Controller
     {
         try {
             Gate::allowIf(fn (User $user) => $user->can('apagar producto definitivamente'));
-            $this->productService->permanentlyDelete($id);
+            $this->productRecycle->permanentlyDelete($id);
 
             return back()->with('success', 'Producto eliminado definitivamente com successo!');
         } catch (\Exception $th) {
@@ -75,7 +78,7 @@ class ProductExcludedController extends Controller
         try {
             Gate::allowIf(fn (User $user) => $user->can('apagar todos os productos definitivamente'));
            
-            $this->productService->cleanAll();
+            $this->productRecycle->cleanAll();
 
             return back()->with('success', 'Lixeira esvaziada com sucesso!');
 

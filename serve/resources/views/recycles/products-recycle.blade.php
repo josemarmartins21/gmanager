@@ -2,15 +2,15 @@
 
 @extends('layouts.main')
 
-@section('title', 'GManager - Productos')
-@section('section', 'Productos')
+@section('title', 'GManager - Reciclagem')
+@section('section', 'Reciclagem')
 
 @section('content')
     <x-dashboard.alert />
     <section id="index-container">
         <x-dashboard.content>
             <x-dashboard.title-section>
-                Reciclagem
+                Productos
             </x-dashboard.title-section>
 
             <x-dashboard.cards-container>

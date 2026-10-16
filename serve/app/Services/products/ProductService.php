@@ -4,13 +4,11 @@ namespace App\Services\products;
 
 use App\Models\Product;
 use App\Services\products\contracts\ProductInterface;
-use App\Trait\ProductExcludedTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LogicException;
 
 class ProductService implements ProductInterface
 {
-    use ProductExcludedTrait;
     
     public function all()
     {

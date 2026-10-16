@@ -20,6 +20,8 @@
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete_sweep" />
+
 </head>
 <body id="corpo">
     <header>
@@ -82,10 +84,22 @@
                     @endcan
                     
                     <x-dashboard.link-nav 
-                        href="{{ route('products-recycle.index') }}"
-                        :active="request()->routeIs('products-recycle.index')" 
+                        href="{{ route('recycle') }}"
+                        :active="request()->routeIs('recycle') || 
+                        request()->routeIs('sales-recycle.index') || 
+                        request()->routeIs('products-recycle.index') " 
                     >
-                        <i class="fa-solid fa-trash"></i> Reciclagem de Productos
+                        @session ('hasExcludedResources') 
+                            <i 
+                                @class([
+                                    'fa-solid fa-trash-can' => session()->get('hasExcludedResources'), 
+                                    'fa-solid fa-trash-can' => ! session()->get('hasExcludedResources'),
+                                ])
+
+                            ></i> Reciclagem
+                        @else   
+                            <i class="fa-solid fa-trash-can"></i> Reciclagem 
+                        @endsession
                         
                     </x-dashboard.link-nav>
                 </x-dashboard.link-nav-container>
