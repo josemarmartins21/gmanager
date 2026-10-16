@@ -27,12 +27,12 @@
     <header>
         <div id="logo">
             <a href="{{ route('home') }}">
-                <h1 class="text-5xl font-bold brand">GManager</h1>
+                <h1 class="sm:text-5xl text-4xl font-bold brand">GM</h1>
             </a>
             
             <div id="barra-divisao"></div>
 
-            <h1 class="text-4xl font-bold">@yield('section')</h1>
+            <h1 class="sm:text-4xl text-xl font-bold">@yield('section')</h1>
         </div>
 
         <div id="data-actual">
@@ -65,7 +65,7 @@
             class="-translate-x-full invisible opacity-0 pointer-events-none lg:translate-x-0 lg:visible lg:opacity-100 lg:pointer-events-auto flex" 
             aria-hidden="true"
         >
-            <nav>
+            <nav class="mt-5 md:mt-0">
                 <x-dashboard.link-nav-container>
                     <x-dashboard.link-nav href="{{ route('home') }}"
                         :active="request()->routeIs('home')"
