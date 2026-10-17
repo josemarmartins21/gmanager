@@ -32,6 +32,9 @@
                                 <td>{{ $sale->created_at->format('d/m/Y') }}</td>
 
                                 <td class="flex justify-center gap-5 items-center">
+                                    <a href="{{ route('pdfs.see', ['typePdf' => 'factura-sistema-gestao', 'id' => $sale->id]) }}" class="bg-blue-600 p-1.5 rounded-xl active:scale-[0.95] duration-300 transition-opacity font-semibold">
+                                        <i class="fa-regular fa-file-lines text-2xl" style="color: rgb(255, 255, 255);"></i>
+                                    </a>
                                     <form action="{{ route('sale-status', $sale->id) }}" method="POST">
                                         @csrf
 
@@ -41,7 +44,7 @@
                                             @class([
                                                 'bg-green-700' => $sale->status, 
                                                 'bg-red-700' => ! $sale->status,
-                                                'px-4 py-2 rounded-[5px] text-white font-semibold hover:opacity-80 transition-opacity duration-300 transition transform active:scale-[0.95] duration-300'
+                                                'px-4 py-2 rounded-[5px] text-white font-semibold hover:opacity-80 transition-opacity transition transform active:scale-[0.95] duration-300'
                                             ])
                                             title="{{ $sale->status ? 'Marcar como não paga' : 'Marcar como paga' }}"
                                             onclick="return confirm('Tem certeza que deseja alterar o status da venda?')"
@@ -84,16 +87,6 @@
                     title="Nova Venda"
                 >
                         <i class="fa-solid fa-plus text-3xl"></i>
-                    </a>
-                </x-slot:type>
-            </x-dashboard.action-card>
-            
-            <x-dashboard.action-card>
-                <x-slot:type>
-                    <a href="{{ route('pdfs.download', ['typePdf' => 'sales']) }}"
-                        title="Exportar em PDF"    
-                    >
-                        <i class="fa-solid fa-file-pdf text-3xl"></i>
                     </a>
                 </x-slot:type>
             </x-dashboard.action-card>

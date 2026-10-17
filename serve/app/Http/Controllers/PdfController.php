@@ -32,4 +32,24 @@ class PdfController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
+
+    public function see(string $pdfType, string $id)
+    {
+        try {
+            Gate::allowIf(fn(User $user) => $user->can('gerar PDFs'));
+            
+            $repository = PdfRepositoryFactory::create('pdfs.' . $pdfType, $id);
+
+            $this->pdf = PdfAdapterFactory::create(
+                $this->pdfDrive, 
+                'pdfs.' . $pdfType, 
+                $repository->all(),
+            );
+            
+            return $this->pdf->see();
+
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
 }

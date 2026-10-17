@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function() {
     
     Route::prefix('pdfs')->group(function() {
         Route::get('{typePdf}', [PdfController::class, 'download'])->name('pdfs.download');
+        Route::get('{typePdf}/{id?}', [PdfController::class, 'see'])->name('pdfs.see');
     });
     
     Route::resource('sales', SaleController::class)->except(['update', 'edit']);
