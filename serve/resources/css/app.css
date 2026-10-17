@@ -90,7 +90,7 @@
     }
 
     div#logo h1 {
-        @apply text-white hidden text-[var(--font-name-app)] lg:block text-4xl font-bold;
+        @apply text-white text-[var(--font-name-app)] lg:block font-bold;
     }
 
     div#logo img {
@@ -98,7 +98,7 @@
     }
 
     div#barra-divisao {
-        @apply hidden lg:block  w-1 h-20 bg-white;
+        @apply lg:block  w-1 h-10 bg-white;
     }
 
     div#data-actual {
