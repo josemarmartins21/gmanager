@@ -20,7 +20,7 @@ class PdfRepositoryFactory
             return match ($pdfType) {
                 'pdfs.cantina-lista-produtos' => new ProductPdfRepository(),
                 'pdfs.cantina-movimentacao-estoque' => new StockMovmentPdfRepository(),
-                'pdfs.factura-sistema-gestao' => new SalePdfRepository($id),   
+                'pdfs.factura' => new SalePdfRepository($id),   
             };
 
         } catch (UnhandledMatchError) {

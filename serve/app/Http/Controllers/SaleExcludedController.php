@@ -35,7 +35,7 @@ class SaleExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar vendas apagadas'));
+            Gate::allowIf(fn (User $user) => $user->can('restaurar venda apagada'));
 
             $this->saleRecycle->restore($id);
 
