@@ -32,7 +32,7 @@
                                 <td>{{ $sale->created_at->format('d/m/Y') }}</td>
 
                                 <td class="flex justify-center gap-5 items-center">
-                                    <a href="{{ route('pdfs.see', ['typePdf' => 'factura-sistema-gestao', 'id' => $sale->id]) }}" class="bg-blue-600 p-1.5 rounded-xl active:scale-[0.95] duration-300 transition-opacity font-semibold">
+                                    <a href="{{ route('pdfs.see', ['typePdf' => 'factura', 'id' => $sale->id]) }}" class="bg-blue-600 p-1.5 rounded-xl active:scale-[0.95] duration-300 transition-opacity font-semibold">
                                         <i class="fa-regular fa-file-lines text-2xl" style="color: rgb(255, 255, 255);"></i>
                                     </a>
                                     <form action="{{ route('sale-status', $sale->id) }}" method="POST">
