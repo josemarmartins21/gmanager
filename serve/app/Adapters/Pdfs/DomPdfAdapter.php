@@ -41,6 +41,18 @@ class DomPdfAdapter implements PdfAdapter
             throw new \Exception("Erro ao baixar o PDF");
         }
     }
+    
+    public function see()
+    {
+        try {
+
+            return $this->getPdf()
+            ->stream();
+
+        } catch (\Throwable) {
+            throw new \Exception("Erro ao carregar o PDF");
+        }
+    }
 
     public function generate(): void
     {

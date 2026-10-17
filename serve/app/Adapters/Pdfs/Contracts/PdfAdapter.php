@@ -20,4 +20,10 @@ interface PdfAdapter
     * @throws \Exception
     */
     public function generate(): void;
+  
+    /**
+    * @return 
+    * @throws \Exception
+    */
+    public function see();
 }
