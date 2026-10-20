@@ -7,7 +7,7 @@
 <div class="overflow-x-auto">
     <div id="raking-container">
         <div class="border-zinc-300 mb-1 p-1">
-            <p> {{ $description }} </p>
+            <p class="text-zinc-400"> {{ $description }} </p>
     
             <h2 class="text-2xl font-semibold">{{ $title }}</h2>   
         </div>

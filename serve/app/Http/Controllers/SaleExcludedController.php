@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Factories\RecycleFactory;
 use App\Models\User;
 use App\Strategies\Recycles\Contracts\RecycleInterface;
+use App\Trait\PermissionTrait;
 use Illuminate\Support\Facades\Gate;
 
 class SaleExcludedController extends Controller
 {
+    use PermissionTrait;
+
     private RecycleInterface $saleRecycle;
 
     public function __construct()
@@ -20,7 +23,7 @@ class SaleExcludedController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('visualizar vendas apagadas'));
+            $this->hasAuthorization('visualizar vendas apagadas');
 
             $sales =  $this->saleRecycle->allTrashed();
 
@@ -35,7 +38,7 @@ class SaleExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar venda apagada'));
+            $this->hasAuthorization('restaurar venda apagada');
 
             $this->saleRecycle->restore($id);
 
@@ -50,7 +53,7 @@ class SaleExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar vendas apagadas'));
+            $this->hasAuthorization('restaurar vendas apagadas');
 
             $this->saleRecycle->restoreAll();
 
@@ -64,7 +67,7 @@ class SaleExcludedController extends Controller
     public function destroy(string $id)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar venda definitivamente'));
+            $this->hasAuthorization('apagar venda definitivamente');
             $this->saleRecycle->permanentlyDelete($id);
 
             return back()->with('success', 'Venda eliminada definitivamente com successo!');
@@ -76,7 +79,7 @@ class SaleExcludedController extends Controller
     public function destroyAll()
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar todas as vendas definitivamente'));
+            $this->hasAuthorization('apagar todas as vendas definitivamente');
            
             $this->saleRecycle->cleanAll();
 

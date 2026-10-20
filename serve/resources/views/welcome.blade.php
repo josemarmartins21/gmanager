@@ -7,7 +7,7 @@
 @section('content')
         <x-dashboard.content>
             <x-dashboard.overview>
-            <x-slot:title>Resumo Rápido</x-slot:title>
+            <x-slot:title>Resumo Rápido (mês actual)</x-slot:title>
 
                 <x-dashboard.cards-overview>    
                     <x-dashboard.card-overview>
@@ -42,8 +42,8 @@
                 
     
             <x-dashboard.raking 
-                description="Top 3 bebidas mais vendidas"
-                title="Bebidas em alta"
+                description="Top 3 productos mais vendidos"
+                title="Productos dos mês"
                 :items="$topProducts"
             />
         </x-dashboard.fast-checkout>

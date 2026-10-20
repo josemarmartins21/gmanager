@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\Sales\Contracts\CartSessionInterface;
+use App\Trait\PermissionTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class SaleItemController extends Controller
 {
+    use PermissionTrait;
+
     public function __construct(
         private CartSessionInterface $saleItemService,
     )
@@ -18,7 +21,7 @@ class SaleItemController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('criar venda'));
+            $this->hasAuthorization('criar venda');
 
             $this->validate($request);
         
@@ -35,7 +38,7 @@ class SaleItemController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
+            $this->isAdmin();
 
             $request->validate([
                 'id' => 'required|numeric|integer|exists:products,id',
@@ -53,7 +56,7 @@ class SaleItemController extends Controller
     public function removeAll()
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
+            $this->hasAuthorization('limpar carrinho');
 
             $this->saleItemService->flushAll();
 

@@ -52,6 +52,10 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'visualizar vendas apagadas',
                 'guard_name' => 'web',
+            ], 
+            [
+                'name' => 'limpar carrinho',
+                'guard_name' => 'web',
             ]
         ]);
         

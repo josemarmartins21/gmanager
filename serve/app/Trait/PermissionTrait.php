@@ -21,7 +21,7 @@ trait PermissionTrait
         try {
             Gate::allowIf(fn (User $user) => $user->hasRole('admin'));
         } catch (\Throwable) {
-            throw new \Exception("Area restrita para administradores.");
+            throw new \Exception("Area (função) restrita para administradores.");
         }
     }
 }

@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Factories\RecycleFactory;
 use App\Models\User;
 use App\Strategies\Recycles\Contracts\RecycleInterface;
+use App\Trait\PermissionTrait;
 use Illuminate\Support\Facades\Gate;
 
 class ProductExcludedController extends Controller
 {
+    use PermissionTrait;
+    
     private RecycleInterface $productRecycle;
 
     public function __construct()
@@ -20,7 +23,7 @@ class ProductExcludedController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('visualizar productos apagados'));
+            $this->hasAuthorization('visualizar productos apagados');
 
             $products =  $this->productRecycle->allTrashed();
 
@@ -35,7 +38,7 @@ class ProductExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar producto apagado'));
+            $this->hasAuthorization('restaurar producto apagado');
 
             $this->productRecycle->restore($id);
 
@@ -50,7 +53,7 @@ class ProductExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar productos apagados'));
+            $this->hasAuthorization('restaurar productos apagados');
 
             $this-> productRecycle->restoreAll();
 
@@ -64,7 +67,7 @@ class ProductExcludedController extends Controller
     public function destroy(string $id)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar producto definitivamente'));
+            $this->hasAuthorization('apagar producto definitivamente');
             $this->productRecycle->permanentlyDelete($id);
 
             return back()->with('success', 'Producto eliminado definitivamente com successo!');
@@ -76,7 +79,7 @@ class ProductExcludedController extends Controller
     public function destroyAll()
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar todos os productos definitivamente'));
+            $this->hasAuthorization('apagar todos os productos definitivamente');
            
             $this->productRecycle->cleanAll();
 

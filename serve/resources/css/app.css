@@ -136,7 +136,7 @@
     }
 
     div#link-container a.link-nav {
-        @apply p-2.5 sm:p-2 w-[100%] font-semibold rounded-xl text-lg sm:text-xl transition-all duration-200 flex items-center gap-3 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 active:scale-[0.98];
+        @apply p-2.5 sm:p-2 w-[100%] font-semibold rounded-xl text-lg sm:text-xl transition-all duration-200 flex items-center gap-3 active:scale-[0.98];
     }
 
     .link-active {

@@ -6,11 +6,14 @@ use App\Factories\RecycleFactory;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Strategies\Recycles\Contracts\RecycleInterface;
+use App\Trait\PermissionTrait;
 use Illuminate\Support\Facades\Gate;
 
 class StockMovementExcludedController extends Controller
 {
-        private RecycleInterface $stockMovementRecycle;
+    use PermissionTrait;
+
+    private RecycleInterface $stockMovementRecycle;
 
     public function __construct()
     {
@@ -21,7 +24,7 @@ class StockMovementExcludedController extends Controller
     {
         try {
 
-            Gate::allowIf(fn (User $user) => $user->can('visualizar movimentações de estoque apagadas'));
+            $this->hasAuthorization('visualizar movimentações de estoque apagadas');
 
             $stockMovements =  $this->stockMovementRecycle->allTrashed();
 
@@ -36,7 +39,7 @@ class StockMovementExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar movimentação de estoque apagada'));
+            $this->hasAuthorization('restaurar movimentação de estoque apagada');
 
             $this->stockMovementRecycle->restore($id);
 
@@ -51,7 +54,7 @@ class StockMovementExcludedController extends Controller
     {
         try {
             
-            Gate::allowIf(fn (User $user) => $user->can('restaurar movimentações de estoque apagadas'));
+            $this->hasAuthorization('restaurar movimentações de estoque apagadas');
 
             $this->stockMovementRecycle->restoreAll();
 
@@ -65,7 +68,7 @@ class StockMovementExcludedController extends Controller
     public function destroy(string $id)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar movimentação de estoque definitivamente'));
+            $this->hasAuthorization('apagar movimentação de estoque definitivamente');
             $this->stockMovementRecycle->permanentlyDelete($id);
 
             return back()->with('success', 'Movimentação de estoque eliminada definitivamente com successo!');
@@ -77,8 +80,7 @@ class StockMovementExcludedController extends Controller
     public function destroyAll()
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('apagar todas as movimentações de estoque definitivamente'));
-           
+            $this->hasAuthorization('apagar todas as movimentações de estoque definitivamente');
             $this->stockMovementRecycle->cleanAll();
 
             return back()->with('success', 'Lixeira de movimentações de estoque esvaziada com sucesso!');

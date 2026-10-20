@@ -33,7 +33,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="overflow-y-auto">
                 {{ $slot }}
             </main>
         </div>

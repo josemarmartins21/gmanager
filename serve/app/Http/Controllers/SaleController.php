@@ -8,10 +8,14 @@ use App\Models\Sale;
 use App\Models\User;
 use App\Services\Sales\Contracts\CartSessionInterface;
 use App\Services\Sales\Contracts\SaleInterface;
+use App\Trait\PermissionTrait;
 use Illuminate\Support\Facades\Gate;
 
 class SaleController extends Controller
 {
+    use PermissionTrait;
+
+
     public function __construct(
         private SaleInterface $saleService,
         private CartSessionInterface $cartService,
@@ -23,7 +27,7 @@ class SaleController extends Controller
     public function index()
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('visualizar vendas'));
+            $this->hasAuthorization('visualizar vendas');
 
             $sales = $this->saleService->all();
 
@@ -39,7 +43,7 @@ class SaleController extends Controller
      */
     public function create()
     {
-        Gate::allowIf(fn (User $user) => $user->can('criar venda'));
+        $this->hasAuthorization('criar venda');
 
         $products = Product::all('name', 'id', 'current_stock');
 
@@ -52,7 +56,7 @@ class SaleController extends Controller
     public function store(SaleRequest $request)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('criar venda'));
+            $this->hasAuthorization('criar venda');
 
             $saleDetails = $request->only(['note', 'total_payed']);
             $saleItems = $this->cartService->getAllItems();
@@ -74,7 +78,7 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         try {
-            Gate::allowIf(fn (User $user) => $user->can('excluir venda'));
+            $this->hasAuthorization('excluir venda');
             $this->saleService->delete($sale);
 
             return back()->with('success', 'Venda excluida com sucesso!');
